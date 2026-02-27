@@ -131,13 +131,63 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (populated during roadmap creation) | | |
+| DATA-01 | Phase 1: Foundation and Mock Data | Pending |
+| DATA-02 | Phase 1: Foundation and Mock Data | Pending |
+| DATA-03 | Phase 1: Foundation and Mock Data | Pending |
+| DATA-04 | Phase 1: Foundation and Mock Data | Pending |
+| DATA-05 | Phase 1: Foundation and Mock Data | Pending |
+| DATA-06 | Phase 1: Foundation and Mock Data | Pending |
+| DATA-07 | Phase 1: Foundation and Mock Data | Pending |
+| DATA-08 | Phase 1: Foundation and Mock Data | Pending |
+| DATA-09 | Phase 1: Foundation and Mock Data | Pending |
+| DATA-10 | Phase 1: Foundation and Mock Data | Pending |
+| DSGN-01 | Phase 1: Foundation and Mock Data | Pending |
+| DSGN-02 | Phase 1: Foundation and Mock Data | Pending |
+| DSGN-03 | Phase 1: Foundation and Mock Data | Pending |
+| GRAPH-01 | Phase 2: Network Graph Visualization | Pending |
+| GRAPH-02 | Phase 2: Network Graph Visualization | Pending |
+| GRAPH-03 | Phase 2: Network Graph Visualization | Pending |
+| GRAPH-04 | Phase 2: Network Graph Visualization | Pending |
+| GRAPH-05 | Phase 2: Network Graph Visualization | Pending |
+| GRAPH-06 | Phase 2: Network Graph Visualization | Pending |
+| GRAPH-07 | Phase 2: Network Graph Visualization | Pending |
+| GRAPH-08 | Phase 2: Network Graph Visualization | Pending |
+| GRAPH-09 | Phase 2: Network Graph Visualization | Pending |
+| GRAPH-10 | Phase 2: Network Graph Visualization | Pending |
+| PROF-01 | Phase 3: Profiles and Search | Pending |
+| PROF-02 | Phase 3: Profiles and Search | Pending |
+| PROF-03 | Phase 3: Profiles and Search | Pending |
+| PROF-04 | Phase 3: Profiles and Search | Pending |
+| PROF-05 | Phase 3: Profiles and Search | Pending |
+| PROF-06 | Phase 3: Profiles and Search | Pending |
+| PROF-07 | Phase 3: Profiles and Search | Pending |
+| PROF-08 | Phase 3: Profiles and Search | Pending |
+| PROF-09 | Phase 3: Profiles and Search | Pending |
+| PROF-10 | Phase 3: Profiles and Search | Pending |
+| SRCH-01 | Phase 3: Profiles and Search | Pending |
+| SRCH-02 | Phase 3: Profiles and Search | Pending |
+| SRCH-03 | Phase 3: Profiles and Search | Pending |
+| SRCH-04 | Phase 3: Profiles and Search | Pending |
+| SRCH-05 | Phase 3: Profiles and Search | Pending |
+| DSGN-04 | Phase 4: Sharing, Filtering, and Polish | Pending |
+| DSGN-05 | Phase 4: Sharing, Filtering, and Polish | Pending |
+| DSGN-06 | Phase 4: Sharing, Filtering, and Polish | Pending |
+| DSGN-07 | Phase 4: Sharing, Filtering, and Polish | Pending |
+| DSGN-08 | Phase 4: Sharing, Filtering, and Polish | Pending |
+| SHAR-01 | Phase 4: Sharing, Filtering, and Polish | Pending |
+| SHAR-02 | Phase 4: Sharing, Filtering, and Polish | Pending |
+| SHAR-03 | Phase 4: Sharing, Filtering, and Polish | Pending |
+| SHAR-04 | Phase 4: Sharing, Filtering, and Polish | Pending |
+| WATCH-01 | Phase 5: Watchlist and Alerts | Pending |
+| WATCH-02 | Phase 5: Watchlist and Alerts | Pending |
+| WATCH-03 | Phase 5: Watchlist and Alerts | Pending |
+| WATCH-04 | Phase 5: Watchlist and Alerts | Pending |
 
 **Coverage:**
-- v1 requirements: 44 total
-- Mapped to phases: 0
-- Unmapped: 44 ⚠️
+- v1 requirements: 51 total
+- Mapped to phases: 51
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-27*
-*Last updated: 2026-02-27 after initial definition*
+*Last updated: 2026-02-27 after roadmap creation*
