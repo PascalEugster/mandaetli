@@ -12,7 +12,7 @@ Seilschaften.ch delivers a public transparency platform that visualizes connecti
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation and Mock Data** - Database schema, realistic mock data for all Swiss political actors, and dark-mode design system
+- [x] **Phase 1: Foundation and Mock Data** - Database schema, realistic mock data for all Swiss political actors, and dark-mode design system
 - [ ] **Phase 2: Network Graph Visualization** - Interactive WebGL force-directed graph with progressive disclosure and basic controls
 - [ ] **Phase 3: Profiles and Search** - SSR politician/organization/party profile pages with global search and autocomplete
 - [ ] **Phase 4: Sharing, Filtering, and Polish** - Shareable URLs, advanced filtering, responsive design, and progressive disclosure across all views
@@ -33,9 +33,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: TBD
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
-- [ ] 01-03: TBD
+- [x] 01-01: Project setup, design system, and local Supabase
+- [x] 01-02: Database schema with ENUMs and auto-generated TypeScript types
+- [x] 01-03: Mock data seed (248 politicians, 522 orgs, 8 parties, 22 commissions, 2182 connections) and landing page integration
 
 ### Phase 2: Network Graph Visualization
 **Goal**: Users can explore the Swiss political network through an interactive force-directed graph that stays readable at full data scale through progressive disclosure
@@ -108,7 +108,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation and Mock Data | 0/3 | Not started | - |
+| 1. Foundation and Mock Data | 3/3 | Complete | 2026-02-27 |
 | 2. Network Graph Visualization | 0/3 | Not started | - |
 | 3. Profiles and Search | 0/3 | Not started | - |
 | 4. Sharing, Filtering, and Polish | 0/2 | Not started | - |
