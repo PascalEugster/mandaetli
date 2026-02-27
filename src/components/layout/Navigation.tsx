@@ -1,5 +1,12 @@
 import Link from "next/link";
 
+const NAV_LINKS = [
+	{ href: "/graph", label: "Netzwerk" },
+	{ href: "/person", label: "Personen" },
+	{ href: "/organization", label: "Organisationen" },
+	{ href: "/party", label: "Parteien" },
+] as const;
+
 export function Navigation() {
 	return (
 		<nav className="sticky top-0 z-50 border-b border-border-subtle bg-bg-card/80 backdrop-blur-sm">
@@ -12,18 +19,15 @@ export function Navigation() {
 				</Link>
 
 				<div className="flex items-center gap-6">
-					<Link
-						href="/graph"
-						className="text-sm text-text-secondary transition-colors hover:text-text-primary"
-					>
-						Netzwerk
-					</Link>
-					<Link
-						href="/search"
-						className="text-sm text-text-secondary transition-colors hover:text-text-primary"
-					>
-						Suche
-					</Link>
+					{NAV_LINKS.map((link) => (
+						<Link
+							key={link.href}
+							href={link.href}
+							className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+						>
+							{link.label}
+						</Link>
+					))}
 				</div>
 			</div>
 		</nav>
