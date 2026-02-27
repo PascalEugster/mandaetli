@@ -1,11 +1,12 @@
 "use client";
 
 import { SigmaContainer } from "@react-sigma/core";
+import "@react-sigma/core/lib/style.css";
+import Graph from "graphology";
 import { useQueryStates } from "nuqs";
 import { useCallback, useMemo, useState } from "react";
 import { graphSearchParams } from "@/lib/graph/search-params";
 import type { GraphActor, GraphConnection, GraphParty } from "@/lib/graph/types";
-import "@react-sigma/core/lib/style.css";
 import { DetailPanel } from "./DetailPanel";
 import { GraphCanvas } from "./GraphCanvas";
 import { GraphControls } from "./GraphControls";
@@ -16,6 +17,16 @@ import { GraphReducers } from "./GraphReducers";
 import { GraphSearch } from "./GraphSearch";
 import { GraphToolbar } from "./GraphToolbar";
 import { NodeTooltip } from "./NodeTooltip";
+
+// SigmaContainer creates its internal graph with default options (multi: false).
+// useLoadGraph imports data into that internal graph via graph.import().
+// Our data has multi-edges (same actor pair, different roles), so the internal
+// graph must also support multi-edges to avoid "duplicate edge" errors.
+class MultiGraph extends Graph {
+	constructor() {
+		super({ multi: true, type: "undirected" });
+	}
+}
 
 type NetworkGraphProps = {
 	actors: GraphActor[];
@@ -56,6 +67,7 @@ export default function NetworkGraph({ actors, connections, parties }: NetworkGr
 	return (
 		<div className="relative h-full w-full">
 			<SigmaContainer
+				graph={MultiGraph}
 				className="h-full w-full"
 				settings={{
 					renderEdgeLabels: false,
