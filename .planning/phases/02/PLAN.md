@@ -4,7 +4,7 @@
 **Requirements:** GRAPH-01 through GRAPH-10
 **Approach:** See DISCUSSION.md
 **Created:** 2026-02-27
-**Updated:** 2026-02-27 (incorporated architect feedback)
+**Updated:** 2026-02-27 (incorporated architect + UX designer feedback)
 
 ## Task Breakdown
 
@@ -124,23 +124,33 @@
 ---
 
 ### Task 02-02: Progressive Disclosure, Interactions, and Detail Panel
-**Goal:** Interaction-driven progressive disclosure (overview -> filtered -> focused), hover tooltips, node/edge click, detail panels, path-finding
+**Goal:** Interaction-driven progressive disclosure (overview -> filtered -> focused), hover tooltips, node/edge click, detail panels, path-finding. Also: update node/edge styling per UX spec, add sidebar auto-collapse, keyboard shortcuts.
 **Depends on:** Task 02-01
 **Acceptance criteria:**
+- **Node styling update:** Politician fill = blue `#3b82f6`, party color as 2px ring (border). Org fill = green `#22c55e`. Node sizes proportional to degree: `6 + (degree/maxDegree) * 18`. Party nodes fixed 28px at 60% opacity.
+- **Sidebar auto-collapse:** Sidebar collapses to 56px (icons only) on /netzwerk route
 - Default view (overview): only party nodes visible (~8 nodes) with aggregated inter-party edges
 - Clicking a party or applying a filter -> filtered view: matching actors + 1-hop neighbors, capped at 80 nodes
-- Clicking an actor node -> focused view: ego network (actor + direct connections + neighbor interconnections)
+- Clicking an actor node -> focused view: ego network with selection highlight (20% size increase, Swiss red ring, pulse animation 100%->108%->100% 400ms). Neighbors full opacity. Others at 20% opacity. Non-connected edges at 5% opacity.
 - viewLevel is derived from URL state: `selected` set -> focused, filters set -> filtered, else -> overview
-- Hover any node: tooltip shows name, actor type, party, canton, connection count
-- Hover dims non-neighbors to 0.15 opacity
-- Click node: selected node gets Swiss red ring, detail panel opens
-- Click two different nodes: path-finding highlights all shortest paths (max depth 3), dims rest
-- Hover edge: tooltip shows connection type, role, confidence level
-- Click edge: slide-in panel shows full connection details with source URL
+- **Tooltip (300ms delay):** Fixed 280px width, anchored to node (12px right, 8px below), NOT cursor-following. 3px top border in party color. Content: photo 32x32 + name + party/canton/council + separator + stats + top 3 connections. Background: surface-2 at 95% opacity + backdrop-blur-sm.
+- Hover dims non-neighbors to 20% opacity, non-connected edges to 5%
+- Click node: detail panel opens (right side, 320px, slide-in 300ms ease-out). Content: photo 56x56 + name + metadata + "View Full Profile" button + CONNECTIONS list with filter tabs + SIMILAR ACTORS section + PATH FINDER input.
+- Click two nodes: path-finding highlights shortest paths. Path edges = Swiss red, 3px. Intermediate nodes at 1.2x. All other at 10% opacity.
+- Hover edge: tooltip with connection type, role, confidence badge, source
+- Click edge: edge detail in panel
 - Click empty space: deselects all
-- FA2 re-runs on major view transitions (200 iterations)
+- **Double-click node:** Navigate to profile page (placeholder toast for Phase 2)
+- **Keyboard shortcuts:** Escape = close/deselect, 0 = fit viewport
+- **Legend:** Bottom-left floating panel, 200px, collapsible, 2-column grid with node types + edge types + confidence colors. State in localStorage.
+- **Edge styling update:** Mandate solid 1.5px `#475569`, membership solid 1px `#334155`, lobbying dashed 1.5px `#475569`, donation dotted 1.5px `#f59e0b33`, employment solid 1px `#334155` (use solid fallback if custom edge programs too complex)
 
 **Steps:**
+
+0. **Update node/edge styling** (apply UX designer spec to existing files)
+   - Update `graphStyles.ts`: politician fill = `#3b82f6` (always blue), add `getNodeBorderColor()` returning party color for persons. Org color = `#22c55e`. Edge styles per UX spec (colors, sizes).
+   - Update `buildGraph.ts`: compute node degree after adding all edges, set `size = 6 + (degree / maxDegree) * 18`. Party nodes fixed size 28. Add `borderColor` and `borderSize: 2` attributes for politician nodes.
+   - Update Sidebar to auto-collapse on `/netzwerk` route (detect pathname, set collapsed state).
 
 1. **Create nuqs search params** (`src/lib/graph/search-params.ts`)
    - nuqs parsers for graph URL state:
@@ -190,24 +200,56 @@
 
 7. **Create NodeTooltip** (`src/components/graph/NodeTooltip.tsx`)
    - Reads `hoveredNodeId` + `tooltipPosition` from zustand
-   - Positioned via absolute coords on graph container div
-   - Content: name (bold), actor type icon, party badge (colored dot + abbreviation), canton, "X Verbindungen"
-   - Styled: `bg-surface-3`, `border border-border-subtle`, `rounded-md`, `shadow-lg`, `text-sm`
-   - Hidden when `hoveredNodeId` is null
+   - **300ms hover delay** (use setTimeout, clear on leaveNode)
+   - **Fixed width 280px**, anchored to node position (12px right, 8px below), NOT following cursor
+   - Flip to left/above if near screen edge
+   - **3px top border** in party color (from node attributes)
+   - Content layout: Photo 32x32 (rounded-full, initials fallback on surface-3) | Name (text-h2, text-primary) | Party abbreviation + canton + council (text-body-sm, text-tertiary, separated by " · ") | Separator (1px border-subtle) | Connection stats: "23 Verbindungen / 12 Mandate / 4 Lobbying" (text-body-sm, numbers semibold) | Top 3 connections with colored type dots (text-body-sm, text-secondary)
+   - Background: `surface-2` at 95% opacity + `backdrop-blur-sm`
+   - Border: 1px border-default, rounded-lg
+   - Animation: fade-in 150ms ease, fade-out 100ms ease
 
-8. **Create EdgeDetailPanel** (`src/components/graph/EdgeDetailPanel.tsx`)
-   - Right-side sliding panel (320px, overlays graph canvas, animates from right)
-   - Visible when `selectedEdgeId` is set (zustand) OR when `selected` is set (nuqs)
-   - **Node detail mode** (selected actor): name, actor type, party, canton, council, connection count, scrollable list of all connections with confidence badges
-   - **Edge detail mode** (selected edge): connection type label, role, confidence badge, source/target actor names, source URL link
-   - **Path detail mode** (pathFrom + pathTo set): shows path steps (Node A -> Edge -> Node B -> ...)
-   - Close button clears relevant state
+8. **Create DetailPanel** (`src/components/graph/DetailPanel.tsx`) -- renamed from EdgeDetailPanel
+   - Right-side sliding panel, 320px wide, full canvas height
+   - Slide-in from right: 300ms ease-out animation (translate-x)
+   - Background: surface-1 at 95% opacity + backdrop-blur-lg, left border 1px border-subtle
+   - Close button: top-right X icon (ghost button)
+   - **Node detail mode** (when `selected` is set in nuqs):
+     - Photo 56x56 (rounded-full) + name (text-h1) + metadata (party/canton/council)
+     - "Profil anzeigen" button (Swiss red bg, white text, links to /person/[slug] or shows toast "Profilseiten folgen in Phase 3")
+     - Separator
+     - "VERBINDUNGEN (N)" section header (text-h3) with filter tabs: Alle | Mandate | Mitgliedschaften | Lobbying | Spenden | Anstellungen
+     - Scrollable connection list: each row shows colored dot + org/person name + connection type + confidence badge
+     - Separator
+     - "AHNLICHE AKTEURE" section (share 5+ connections): list with shared count
+     - Separator
+     - "PFAD FINDEN" section: inline search input to select second actor for path finding
+   - **Edge detail mode** (when `selectedEdgeId` is set in zustand):
+     - Connection type (text-h3 bold) + role
+     - Source actor -> target actor (with arrow)
+     - Confidence badge + source link (text-caption, text-tertiary)
+   - **Path detail mode** (when pathFrom + pathTo set):
+     - "PFAD: Actor A -> Actor B" header
+     - Path count + shortest hop count
+     - Step-by-step path visualization: Node --[type]--> Node
+   - Clicking different node crossfades panel content (200ms)
+   - Click empty canvas closes panel
 
 9. **Create GraphLegend** (`src/components/graph/GraphLegend.tsx`)
-   - Bottom-left overlay on graph canvas
-   - Node type legend: colored circles with German labels (Politiker:in, Organisation, Partei, Kommission)
-   - Edge type legend: colored lines with German labels (Mandat, Mitgliedschaft, Lobbying, Spende, Anstellung)
-   - Collapsible via chevron toggle
+   - **Bottom-left** floating panel, 200px wide, 12px from bottom and left edge of canvas
+   - Background: surface-1 at 85% opacity + backdrop-blur-sm, border 1px border-subtle, rounded-[10px], padding 12px
+   - "LEGENDE" header (text-h3, text-tertiary, uppercase) with chevron toggle
+   - **Nodes section:** 2-column grid with colored circle/shape samples + German labels (Politiker:in, Organisation, Partei, Kommission)
+   - **Edges section:** 2-column grid with line style samples + labels (Mandat, Mitgliedschaft, Lobbying, Spende, Anstellung)
+   - **Confidence section:** colored dots + labels (Verifiziert, Deklariert, Medienberichte, Abgeleitet)
+   - Collapsible (collapsed = just header bar "LEGENDE [v]")
+   - Collapse state saved in localStorage
+   - Visible by default on first visit
+
+9b. **Add keyboard shortcuts** (in GraphEventHandler or separate hook)
+    - `Escape`: close panel / clear selection / exit search (cascading)
+    - `0`: fit graph to viewport (`sigma.getCamera().animatedReset()`)
+    - Double-click node: `doubleClickNode` event -> navigate to profile or show toast
 
 10. **FA2 re-run on view transitions:**
     - Update `GraphDataLoader` to accept view-level changes
@@ -232,66 +274,81 @@
 ---
 
 ### Task 02-03: Graph Filters, In-Graph Search, and Toolbar
-**Goal:** Filter panel UI, search with autocomplete and camera zoom-to, toolbar controls, full URL state persistence
+**Goal:** Filter panel UI, dual-purpose search (single actor + path finder), floating toolbar, full URL state persistence
 **Depends on:** Task 02-02
 **Acceptance criteria:**
-- Filter panel with party, canton, council (NR/SR), industry, and connection type filters
+- **Floating toolbar** (top of canvas, 44px height): surface-1 at 90% opacity + backdrop-blur-md, rounded-[10px], 12px margins. Contains: filter toggle (funnel + count badge), inline search input, legend toggle
+- **Filter panel** (260px, below toolbar, top-left): party checkboxes (2-col grid with color dots), canton dropdown (shadcn Command in Popover), council segmented control (NR/SR/Both), industry checkboxes with expander, connection type checkboxes. surface-1 at 95% opacity + backdrop-blur-md
 - Filters combine (AND logic): selecting SVP + canton ZH shows only SVP members from Zurich
-- Filters update graph in real time via Sigma.js reducers (already wired in 02-02)
-- Active filter count shown on filter toggle button
-- "Alle zurucksetzen" button clears all filters, returns to overview
-- Search input -- typing shows autocomplete list of matching actors (top 10, from graph memory)
-- Selecting a search result: sets `selected` in URL, zooms camera smoothly to node
-- Cmd+K keyboard shortcut opens search
+- **Filter animation:** non-matching nodes shrink to 0 + fade out (200ms ease). Matching hidden nodes grow in (200ms ease, 50ms stagger). NO FA2 re-run on filter changes.
+- **Active filter chips in toolbar:** `[SVP x] [Finance x] [NR x] [Clear all]`
+- "Alle zurucksetzen" button in filter panel resets to overview
+- **Search:** inline in toolbar, expands 240px -> 400px on focus. Autocomplete dropdown (max 8 results, grouped by type: Politiker:innen, Organisationen, Parteien). Each result: type dot + name + party + canton.
+- **Path finder mode:** after selecting first actor, search shows "Find path to..." prompt. Selecting second actor highlights paths (Swiss red edges 3px, animated dash, intermediate nodes 1.2x, rest 10% opacity).
+- Keyboard shortcut: `/` to focus search, `F` to toggle filters, `L` to toggle legend
 - All state persisted in URL via nuqs -- shared URL restores exact view
-- Toolbar: zoom +/-, fit-all, filter toggle, search trigger
+- **Zoom controls:** separate floating vertical stack (top-right or bottom-right): +/- buttons + fit-all
 - Graph skeleton shown during dynamic import
 
 **Steps:**
 
-1. **Create GraphControls** (`src/components/graph/GraphControls.tsx`)
-   - Left-side collapsible panel (280px, overlays graph canvas, animates from left)
-   - Toggle button on toolbar (funnel icon with active count badge)
+1. **Create GraphToolbar** (`src/components/graph/GraphToolbar.tsx`)
+   - **Floating bar at top of canvas**, 44px height, 12px margins from edges
+   - Background: surface-1 at 90% opacity + backdrop-blur-md (12px blur)
+   - Border: 1px border-subtle, rounded-[10px]
+   - Layout (left to right): Filter toggle button (Funnel icon + active count badge) | Search input (inline, 240px resting, expands to 400px on focus) | Legend toggle (BookOpen icon)
+   - Filter toggle: when clicked, opens/closes GraphControls panel below
+   - When filters active, show chips to the right of funnel: `[SVP x] [Finance x]` + "[Clear all]" link
+   - If >4 chips, show "+N more" with dropdown
+
+2. **Create GraphControls** (`src/components/graph/GraphControls.tsx`)
+   - **Floating panel below toolbar**, 260px wide, 12px below toolbar, 12px from left
+   - Background: surface-1 at 95% opacity + backdrop-blur-md, border 1px border-subtle, rounded-[10px], padding 16px
+   - Max height: `calc(100vh - 64px - 44px - 24px)`, overflow-y auto (scrollable)
    - Sections (German labels):
-     - **Parteien:** Checkboxes with party color dots and member counts from graph
-     - **Kantone:** Searchable multi-select (26 cantons with internal filter input)
-     - **Rat:** Toggle pills: NR / SR / Beide
-     - **Branche:** Searchable multi-select (22 industries)
+     - **Parteien:** 2-column checkbox grid. Each: party color dot (8px circle) + abbreviation. Top 6 shown, "Alle 8 anzeigen" expander. All checked by default.
+     - **Kantone:** Dropdown with search (shadcn Command inside Popover). Default "Alle Kantone". Multiple selection with chips.
+     - **Rat:** Segmented control (NR / SR / Beide). surface-2 bg, active = surface-3 + text-primary. Default "Beide".
+     - **Branche:** Single-column checkbox list. Top 6 shown, "Alle 22 anzeigen" expander. Each: colored dot + sector name.
      - **Verbindungstyp:** Checkboxes (Mandat, Mitgliedschaft, Lobbying, Spende, Anstellung)
-   - "Alle zurucksetzen" button at bottom
+   - "Alle Filter zurucksetzen" button at bottom
    - Reads/writes nuqs params via `useQueryStates(graphSearchParams)`
-   - Filter counts update dynamically from graph data (e.g., "SVP (62)")
+   - Real-time graph update: no "Apply" button needed
 
-2. **Create GraphSearch** (`src/components/graph/GraphSearch.tsx`)
-   - Search input positioned in toolbar area or as overlay
-   - Debounced (300ms) text input
-   - Filters actor names from Graphology graph node attributes (case-insensitive includes)
-   - Dropdown: up to 10 results with actor type icon + party color dot + canton
-   - Selecting result: sets `selected` in nuqs, calls `sigma.getCamera().animate({ x, y, ratio: 0.1 })` for smooth zoom-to
-   - Cmd+K keyboard shortcut to focus/toggle search
-   - `q` param in nuqs preserves search query text
+3. **Create GraphSearch** (`src/components/graph/GraphSearch.tsx`)
+   - Inline in toolbar, expands from 240px to 400px on focus (200ms ease)
+   - Background: surface-2 at 80% opacity, border 1px border-default, focus: border-strong + Swiss red ring
+   - Placeholder: "Akteure suchen... (oder /)" in text-muted
+   - Search icon 16px, text-tertiary
+   - **Mode 1 (single actor):** Debounced 300ms, filters from Graphology node attributes (case-insensitive includes). Dropdown max 8 results grouped by type (Politiker:innen, Organisationen, Parteien headers in text-caption text-muted uppercase). Each row 40px: type dot + name + party/type + canton. Hover: surface-3 bg.
+   - Selecting result: sets `selected` in nuqs, `sigma.getCamera().animate({ x, y, ratio: 0.1 })` for smooth zoom-to
+   - **Mode 2 (path finder):** After selecting first actor, search input shows "[Actor A] -> [type to find...]". Same autocomplete. Selecting second actor sets `pathFrom` + `pathTo` in nuqs.
+   - Clear path: Escape or "Clear path" button in toolbar
+   - Keyboard: `/` to focus search
 
-3. **Create GraphToolbar** (`src/components/graph/GraphToolbar.tsx`)
-   - Top-right overlay on graph canvas
-   - Buttons (icon-only with tooltips):
-     - Zoom in (+) -- `sigma.getCamera().animatedZoom()`
-     - Zoom out (-) -- `sigma.getCamera().animatedUnzoom()`
-     - Fit all (Maximize icon) -- `sigma.getCamera().animatedReset()`
-     - Filter toggle (Filter/Funnel icon + badge showing active filter count)
-     - Search toggle (Search icon)
-   - Styled: `bg-surface-2`, `rounded-lg`, `border border-border-subtle`, vertical stack
+4. **Create zoom controls** (can be part of GraphToolbar or separate component)
+   - Floating vertical stack, positioned bottom-right of canvas (12px margins)
+   - surface-2 bg, rounded-lg, border border-subtle
+   - Buttons: + (animatedZoom), - (animatedUnzoom), Maximize (animatedReset/fit-all)
+   - Keyboard: `0` for fit-all (already wired in 02-02)
 
-4. **Create GraphSkeleton** (`src/components/graph/GraphSkeleton.tsx`)
+5. **Create GraphSkeleton** (`src/components/graph/GraphSkeleton.tsx`)
    - Full-viewport skeleton matching graph page layout
    - Pulsing circles of various sizes (simulating graph nodes)
    - Shown during dynamic import `loading` state
 
-5. **URL state initialization on page load:**
-   - Update `/netzwerk/page.tsx` to pass URL search params context
-   - `GraphContainer` reads nuqs params on mount
-   - If `selected` present: find node by slug, set initial camera position to zoom to it
-   - If filter params present: apply filters (visible node set computed automatically)
-   - If `pathFrom` + `pathTo` present: compute paths and highlight
+6. **URL state initialization on page load:**
+   - Update `/netzwerk/page.tsx` for nuqs context if needed
+   - GraphContainer reads nuqs params on mount
+   - If `selected` present: find node by slug, zoom camera to it
+   - If filter params present: apply filters
+   - If `pathFrom` + `pathTo` present: compute and highlight paths
+
+7. **Keyboard shortcuts** (in GraphEventHandler or separate hook)
+   - `/` -> focus search input
+   - `F` -> toggle filter panel
+   - `L` -> toggle legend
+   - (Escape and 0 already in 02-02)
 
 **Files created/modified:**
 - `src/components/graph/GraphControls.tsx` (new)
@@ -324,18 +381,24 @@ After all tasks complete:
 2. [ ] ForceAtlas2 layout computes in Web Worker (UI stays responsive during layout)
 3. [ ] Default view shows only party clusters (~8 nodes), not all actors
 4. [ ] Applying a filter shows matching actors + 1-hop neighbors (capped at 80)
-5. [ ] Clicking a node shows ego network and opens detail panel
-6. [ ] Hovering a node shows tooltip with name, party, canton, connection count
-7. [ ] Hovering dims non-neighbors to 0.15 opacity
-8. [ ] Clicking two nodes highlights shortest path between them
+5. [ ] Clicking a node shows ego network and opens detail panel (320px, slide-in)
+6. [ ] Hovering a node shows tooltip (300ms delay, 280px, anchored, party color border, photo+stats)
+7. [ ] Hovering dims non-neighbors to 20% opacity, non-connected edges to 5%
+8. [ ] Clicking two nodes highlights shortest path (Swiss red edges, intermediate nodes 1.2x)
 9. [ ] Filters (party, canton, council, industry) combine with AND logic and update instantly
-10. [ ] Search finds actors and zooms camera to matching node
-11. [ ] URL captures all state (filters, selected node, path endpoints) -- shared URL restores view
-12. [ ] `tsc --noEmit` clean, `biome check` clean, `npm run build` succeeds
-13. [ ] Edge hover shows connection type, role, and confidence
-14. [ ] Nodes visually distinct by actor type (color, size)
-15. [ ] Graph legend visible with node and edge type explanations
+10. [ ] Filter animation: non-matching fade out (200ms), matching fade in (200ms, stagger)
+11. [ ] Search finds actors and zooms camera to matching node
+12. [ ] Path finder mode works (select two actors via search)
+13. [ ] URL captures all state (filters, selected node, path endpoints) -- shared URL restores view
+14. [ ] `tsc --noEmit` clean, `biome check` clean, `npm run build` succeeds
+15. [ ] Edge hover shows connection type, role, and confidence
+16. [ ] Politician nodes: blue fill + party color ring (border). Sizes proportional to degree.
+17. [ ] Graph legend visible (bottom-left, collapsible, node + edge + confidence sections)
+18. [ ] Sidebar auto-collapses to 56px on /netzwerk
+19. [ ] Floating toolbar (top, 44px, backdrop-blur) with filter toggle + search + legend toggle
+20. [ ] Keyboard shortcuts: / (search), Escape (close/deselect), F (filters), L (legend), 0 (fit)
+21. [ ] Active filter chips visible in toolbar when filters applied
 
 ---
 *Plan created: 2026-02-27*
-*Updated with architect feedback: 2026-02-27*
+*Updated with architect + UX designer feedback: 2026-02-27*
