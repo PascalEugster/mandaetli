@@ -336,6 +336,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      search_actors: {
+        Args: { max_results?: number; query: string }
+        Returns: {
+          abbreviation: string
+          actor_type: Database["public"]["Enums"]["actor_type"]
+          canton: string
+          color: string
+          council: Database["public"]["Enums"]["council_type"]
+          first_name: string
+          id: string
+          industry: string
+          last_name: string
+          name: string
+          party_id: string
+          portrait_url: string
+          similarity: number
+          slug: string
+        }[]
+      }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
     }
