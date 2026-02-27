@@ -30,7 +30,7 @@ export const CANTONS: Record<string, string> = {
 
 export const CANTON_CODES = Object.keys(CANTONS);
 
-// French-speaking cantons (for multilingual mock data)
+// French-speaking cantons
 export const FRENCH_CANTONS = ["VD", "GE", "NE", "JU", "FR"] as const;
 export const ITALIAN_CANTONS = ["TI"] as const;
 export const BILINGUAL_CANTONS = ["BE", "FR", "VS"] as const;
@@ -172,7 +172,7 @@ export const PARTIES = [
 	},
 ] as const;
 
-// NR party seat distribution for mock data (total = 200)
+// NR party seat distribution (total = 200)
 export const NR_PARTY_SEATS: Record<string, number> = {
 	svp: 62,
 	sp: 41,
@@ -226,36 +226,43 @@ export const INDUSTRIES = [
 	"trade_association",
 ] as const;
 
-// Connection type definitions with labels
-export const CONNECTION_TYPES = [
-	{
-		type: "mandate",
+// Connection type labels (aligned with DB enum)
+export const CONNECTION_TYPE_LABELS: Record<string, { label: string; description: string }> = {
+	mandate: {
 		label: "Verwaltungsratsmandat",
 		description: "Mitglied des Verwaltungsrats",
 	},
-	{ type: "board_member", label: "Vorstandsmitglied", description: "Mitglied des Vorstands" },
-	{ type: "advisory", label: "Beirat", description: "Mitglied eines Beirats" },
-	{
-		type: "foundation",
-		label: "Stiftungsrat",
-		description: "Mitglied eines Stiftungsrats",
-	},
-	{
-		type: "membership",
+	membership: {
 		label: "Mitgliedschaft",
 		description: "Mitglied einer Organisation",
 	},
-	{
-		type: "lobbying",
-		label: "Lobbying",
-		description: "Lobbying-Verbindung",
+	lobbying: { label: "Lobbying", description: "Lobbying-Verbindung" },
+	donation: { label: "Spende", description: "Finanzielle Zuwendung" },
+	employment: {
+		label: "Anstellung",
+		description: "Arbeitsverhaltnis",
 	},
-	{
-		type: "donation",
-		label: "Spende",
-		description: "Finanzielle Zuwendung",
+};
+
+// Confidence level labels
+export const CONFIDENCE_LABELS: Record<string, { label: string; description: string }> = {
+	verified: {
+		label: "Verifiziert",
+		description: "Aus offizieller Quelle bestatigt",
 	},
-] as const;
+	declared: {
+		label: "Deklariert",
+		description: "Vom Ratsmitglied selbst deklariert",
+	},
+	media_reported: {
+		label: "Medienberichte",
+		description: "Aus Medienberichten entnommen",
+	},
+	inferred: {
+		label: "Abgeleitet",
+		description: "Aus anderen Daten abgeleitet",
+	},
+};
 
 // Data source definitions
 export const DATA_SOURCES = [

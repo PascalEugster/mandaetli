@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Navigation } from "@/components/layout/Navigation";
+import { Inter, JetBrains_Mono } from "next/font/google";
+import { AppShell } from "@/components/layout/AppShell";
 import "./globals.css";
 
 const inter = Inter({
 	variable: "--font-inter",
+	subsets: ["latin"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+	variable: "--font-jetbrains-mono",
 	subsets: ["latin"],
 });
 
@@ -21,9 +26,8 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="de" className="dark">
-			<body className={`${inter.variable} font-sans antialiased`}>
-				<Navigation />
-				<main>{children}</main>
+			<body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+				<AppShell>{children}</AppShell>
 			</body>
 		</html>
 	);

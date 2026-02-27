@@ -1,22 +1,19 @@
+export type { Database } from "./database";
+
 export type {
 	Actor,
 	ActorType,
-	Council,
-	Gender,
-	Language,
-	LegalForm,
-	OrganizationActor,
-	PartyActor,
-	PersonActor,
-} from "./actor";
-
-export type {
-	CompensationStatus,
 	ConfidenceLevel,
 	Connection,
 	ConnectionType,
-} from "./connection";
+	CouncilType,
+	DataSource,
+	Organization,
+	Party,
+	Person,
+	Vote,
+	VoteDecision,
+	VoteRecord,
+} from "./domain";
 
-export type { DataSource, SourceAttribution } from "./source";
-
-export type { TopicCategory, Vote, VotePosition, VoteRecord } from "./vote";
+export { isOrganization, isParty, isPerson } from "./domain";

@@ -1,5 +1,8 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.0.x/schema.json",
+	"files": {
+		"includes": ["**", "!src/types/database.ts", "!.next", "!node_modules"]
+	},
 	"assist": {
 		"enabled": true,
 		"actions": {
