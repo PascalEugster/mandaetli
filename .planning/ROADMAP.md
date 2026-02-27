@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation and Mock Data** - Database schema, realistic mock data for all Swiss political actors, and dark-mode design system
 - [x] **Phase 2: Network Graph Visualization** - Interactive WebGL force-directed graph with progressive disclosure and basic controls
-- [ ] **Phase 3: Profiles and Search** - SSR politician/organization/party profile pages with global search and autocomplete
+- [x] **Phase 3: Profiles and Search** - SSR politician/organization/party profile pages with global search and autocomplete
 - [ ] **Phase 4: Sharing, Filtering, and Polish** - Shareable URLs, advanced filtering, responsive design, and progressive disclosure across all views
 - [ ] **Phase 5: Watchlist and Alerts** - Email-based watchlist for tracking politicians and organizations with change notifications
 
@@ -67,9 +67,9 @@ Plans:
 **Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 03-01: Data layer, search infrastructure, and conflict-of-interest algorithm (Wave 1)
-- [ ] 03-02: Reusable profile UI components and mini ego-graph (Wave 1)
-- [ ] 03-03: Profile pages, list pages, global search, and navigation (Wave 2)
+- [x] 03-01: Data layer, search infrastructure, and conflict-of-interest algorithm (Wave 1)
+- [x] 03-02: Reusable profile UI components and mini ego-graph (Wave 1)
+- [x] 03-03: Profile pages, list pages, global search, and navigation (Wave 2)
 
 ### Phase 4: Sharing, Filtering, and Polish
 **Goal**: Every view in the platform has a unique shareable URL, the design system is complete with progressive disclosure and responsive layouts, and the platform is usable on mobile
@@ -110,6 +110,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Foundation and Mock Data | 3/3 | Complete | 2026-02-27 |
 | 2. Network Graph Visualization | 3/3 | Complete | 2026-02-27 |
-| 3. Profiles and Search | 0/3 | Not started | - |
+| 3. Profiles and Search | 3/3 | Complete | 2026-02-27 |
 | 4. Sharing, Filtering, and Polish | 0/2 | Not started | - |
 | 5. Watchlist and Alerts | 0/1 | Not started | - |

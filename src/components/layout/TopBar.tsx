@@ -1,5 +1,6 @@
-import { Database, Menu, Search } from "lucide-react";
+import { Database, Menu } from "lucide-react";
 import Link from "next/link";
+import { GlobalSearch } from "@/components/search/GlobalSearch";
 
 export function TopBar({ onMenuToggle }: { onMenuToggle?: () => void }) {
 	return (
@@ -24,11 +25,7 @@ export function TopBar({ onMenuToggle }: { onMenuToggle?: () => void }) {
 				</div>
 
 				<div className="flex items-center gap-4">
-					{/* Search placeholder */}
-					<div className="hidden items-center gap-2 rounded-md border border-border-subtle bg-surface-1 px-3 py-1.5 text-text-muted sm:flex">
-						<Search size={14} strokeWidth={1.5} />
-						<span className="text-body-sm">Suche...</span>
-					</div>
+					<GlobalSearch />
 
 					{/* Data status indicator */}
 					<div className="flex items-center gap-1.5 text-text-muted" title="Datenquellen aktiv">
