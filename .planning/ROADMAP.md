@@ -50,9 +50,9 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
-- [ ] 02-03: TBD
+- [ ] 02-01: Graph infrastructure and basic rendering (Sigma.js + ForceAtlas2)
+- [ ] 02-02: Semantic zoom, hover/click interactions, and detail panel
+- [ ] 02-03: Graph filters, in-graph search, and URL state persistence
 
 ### Phase 3: Profiles and Search
 **Goal**: Journalists and researchers can find any politician or organization via search and view a complete profile page with all connections, voting records, and conflict-of-interest analysis -- all linkable for sharing
