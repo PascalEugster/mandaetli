@@ -14,7 +14,7 @@ type NavItem = {
 
 const NAV_ITEMS: NavItem[] = [
 	{ href: "/", label: "Dashboard", icon: LayoutDashboard },
-	{ href: "/graph", label: "Netzwerk", icon: Network, disabled: true },
+	{ href: "/netzwerk", label: "Netzwerk", icon: Network },
 	{ href: "/person", label: "Politiker:innen", icon: Users, disabled: true },
 	{ href: "/organization", label: "Organisationen", icon: Building2, disabled: true },
 	{ href: "/party", label: "Parteien", icon: Flag, disabled: true },

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next";
 import { AppShell } from "@/components/layout/AppShell";
 import "./globals.css";
 
@@ -27,7 +28,9 @@ export default function RootLayout({
 	return (
 		<html lang="de" className="dark">
 			<body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-				<AppShell>{children}</AppShell>
+				<NuqsAdapter>
+					<AppShell>{children}</AppShell>
+				</NuqsAdapter>
 			</body>
 		</html>
 	);

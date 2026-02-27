@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { MobileSidebar } from "./MobileSidebar";
 import { Sidebar } from "./Sidebar";
 import { TopBar } from "./TopBar";
@@ -8,6 +9,14 @@ import { TopBar } from "./TopBar";
 export function AppShell({ children }: { children: React.ReactNode }) {
 	const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 	const [mobileOpen, setMobileOpen] = useState(false);
+	const pathname = usePathname();
+
+	// Auto-collapse sidebar on graph page to maximize horizontal space
+	useEffect(() => {
+		if (pathname === "/netzwerk") {
+			setSidebarCollapsed(true);
+		}
+	}, [pathname]);
 
 	return (
 		<div className="flex h-screen flex-col">

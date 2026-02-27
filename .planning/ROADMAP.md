@@ -13,7 +13,7 @@ Seilschaften.ch delivers a public transparency platform that visualizes connecti
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation and Mock Data** - Database schema, realistic mock data for all Swiss political actors, and dark-mode design system
-- [ ] **Phase 2: Network Graph Visualization** - Interactive WebGL force-directed graph with progressive disclosure and basic controls
+- [x] **Phase 2: Network Graph Visualization** - Interactive WebGL force-directed graph with progressive disclosure and basic controls
 - [ ] **Phase 3: Profiles and Search** - SSR politician/organization/party profile pages with global search and autocomplete
 - [ ] **Phase 4: Sharing, Filtering, and Polish** - Shareable URLs, advanced filtering, responsive design, and progressive disclosure across all views
 - [ ] **Phase 5: Watchlist and Alerts** - Email-based watchlist for tracking politicians and organizations with change notifications
@@ -50,9 +50,9 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 02-01: Graph infrastructure and basic rendering (Sigma.js + ForceAtlas2)
-- [ ] 02-02: Semantic zoom, hover/click interactions, and detail panel
-- [ ] 02-03: Graph filters, in-graph search, and URL state persistence
+- [x] 02-01: Graph infrastructure and basic rendering (Sigma.js + ForceAtlas2)
+- [x] 02-02: Semantic zoom, hover/click interactions, and detail panel
+- [x] 02-03: Graph filters, in-graph search, and URL state persistence
 
 ### Phase 3: Profiles and Search
 **Goal**: Journalists and researchers can find any politician or organization via search and view a complete profile page with all connections, voting records, and conflict-of-interest analysis -- all linkable for sharing
@@ -109,7 +109,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation and Mock Data | 3/3 | Complete | 2026-02-27 |
-| 2. Network Graph Visualization | 0/3 | Not started | - |
+| 2. Network Graph Visualization | 3/3 | Complete | 2026-02-27 |
 | 3. Profiles and Search | 0/3 | Not started | - |
 | 4. Sharing, Filtering, and Polish | 0/2 | Not started | - |
 | 5. Watchlist and Alerts | 0/1 | Not started | - |
