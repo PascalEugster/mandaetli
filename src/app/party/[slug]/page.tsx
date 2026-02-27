@@ -108,7 +108,7 @@ async function buildHeatmapData(): Promise<IndustryPartyMatrix> {
 	// Fetch all parties
 	const { data: parties } = await supabase
 		.from("actors")
-		.select("id, abbreviation, color")
+		.select("id, abbreviation, color, seats_nr")
 		.eq("actor_type", "party")
 		.order("seats_nr", { ascending: false });
 
@@ -141,15 +141,21 @@ async function buildHeatmapData(): Promise<IndustryPartyMatrix> {
 
 	if (connections.length === 0) return { industries: [], parties: [], matrix: [] };
 
-	// Fetch target actors with industry
+	// Fetch target actors with industry (batched to avoid 1000-row limit)
 	const targetIds = [...new Set(connections.map((c) => c.target_actor_id))];
-	const { data: targets } = await supabase
-		.from("actors")
-		.select("id, industry")
-		.in("id", targetIds)
-		.not("industry", "is", null);
+	const allTargets: { id: string; industry: string }[] = [];
+	for (let i = 0; i < targetIds.length; i += batchSize) {
+		const batch = targetIds.slice(i, i + batchSize);
+		const { data: batchTargets } = await supabase
+			.from("actors")
+			.select("id, industry")
+			.in("id", batch)
+			.not("industry", "is", null);
+		if (batchTargets) allTargets.push(...(batchTargets as { id: string; industry: string }[]));
+	}
+	const targets = allTargets;
 
-	if (!targets) return { industries: [], parties: [], matrix: [] };
+	if (targets.length === 0) return { industries: [], parties: [], matrix: [] };
 
 	// Build person -> party mapping
 	const personPartyMap = new Map(persons.map((p) => [p.id, p.party_id]));
