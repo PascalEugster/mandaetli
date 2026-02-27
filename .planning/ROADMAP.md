@@ -64,12 +64,12 @@ Plans:
   3. A party profile page displays all members, aggregate connection statistics, top connected industries, and an industry/branch heatmap across parties
   4. Global search bar returns instant autocomplete results grouped by actor type (politician, organization, party) with relevance ranking and filters for party, canton, council, and actor type
   5. All list views (members, connections, search results) support sorting by name, connection count, party, and canton; a persistent navigation structure lets users move between all sections of the platform
-**Plans**: TBD
+**Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
-- [ ] 03-03: TBD
+- [ ] 03-01: Data layer, search infrastructure, and conflict-of-interest algorithm (Wave 1)
+- [ ] 03-02: Reusable profile UI components and mini ego-graph (Wave 1)
+- [ ] 03-03: Profile pages, list pages, global search, and navigation (Wave 2)
 
 ### Phase 4: Sharing, Filtering, and Polish
 **Goal**: Every view in the platform has a unique shareable URL, the design system is complete with progressive disclosure and responsive layouts, and the platform is usable on mobile
