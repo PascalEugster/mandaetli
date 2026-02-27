@@ -25,7 +25,7 @@ export default async function SearchPage({ searchParams }: Props) {
 				<h1 className="text-2xl font-bold text-text-primary">Suche</h1>
 				{q && (
 					<p className="text-sm text-text-secondary">
-						{results.length} Ergebnis{results.length !== 1 ? "se" : ""} fur &ldquo;{q}&rdquo;
+						{results.length} Ergebnis{results.length !== 1 ? "se" : ""} für &ldquo;{q}&rdquo;
 					</p>
 				)}
 			</div>

@@ -29,18 +29,23 @@ export default async function OrganizationListPage({ searchParams }: Props) {
 
 	const organizations = await listOrganizations({ sortBy, sortDir });
 
-	// Fetch connection counts
+	// Fetch connection counts using batched queries to avoid Supabase 1000-row limit
 	const supabase = await createClient();
 	const orgIds = organizations.map((o) => o.id);
-	const { data: conns } = await supabase
-		.from("connections")
-		.select("target_actor_id")
-		.in("target_actor_id", orgIds)
-		.is("valid_until", null);
 	const connCounts: Record<string, number> = {};
-	if (conns) {
-		for (const c of conns) {
-			connCounts[c.target_actor_id] = (connCounts[c.target_actor_id] ?? 0) + 1;
+	const batchSize = 100;
+	for (let i = 0; i < orgIds.length; i += batchSize) {
+		const batch = orgIds.slice(i, i + batchSize);
+		const { data: conns } = await supabase
+			.from("connections")
+			.select("target_actor_id")
+			.in("target_actor_id", batch)
+			.is("valid_until", null)
+			.limit(10000);
+		if (conns) {
+			for (const c of conns) {
+				connCounts[c.target_actor_id] = (connCounts[c.target_actor_id] ?? 0) + 1;
+			}
 		}
 	}
 

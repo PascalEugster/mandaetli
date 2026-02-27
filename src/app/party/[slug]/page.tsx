@@ -123,15 +123,23 @@ async function buildHeatmapData(): Promise<IndustryPartyMatrix> {
 
 	if (!persons) return { industries: [], parties: [], matrix: [] };
 
-	// Fetch all active connections from persons
+	// Fetch all active connections from persons (batched to avoid 1000-row limit)
 	const personIds = persons.map((p) => p.id);
-	const { data: connections } = await supabase
-		.from("connections")
-		.select("source_actor_id, target_actor_id")
-		.in("source_actor_id", personIds)
-		.is("valid_until", null);
+	const allConnections: { source_actor_id: string; target_actor_id: string }[] = [];
+	const batchSize = 100;
+	for (let i = 0; i < personIds.length; i += batchSize) {
+		const batch = personIds.slice(i, i + batchSize);
+		const { data: batchConns } = await supabase
+			.from("connections")
+			.select("source_actor_id, target_actor_id")
+			.in("source_actor_id", batch)
+			.is("valid_until", null)
+			.limit(10000);
+		if (batchConns) allConnections.push(...batchConns);
+	}
+	const connections = allConnections;
 
-	if (!connections) return { industries: [], parties: [], matrix: [] };
+	if (connections.length === 0) return { industries: [], parties: [], matrix: [] };
 
 	// Fetch target actors with industry
 	const targetIds = [...new Set(connections.map((c) => c.target_actor_id))];
@@ -150,11 +158,14 @@ async function buildHeatmapData(): Promise<IndustryPartyMatrix> {
 	// Collect all industries
 	const allIndustries = [...new Set(targets.map((t) => t.industry as string))].sort();
 
-	// Build party index
-	const partyList = parties.filter(
-		(p): p is { id: string; abbreviation: string; color: string } =>
-			p.abbreviation != null && p.color != null,
-	);
+	// Build party index (use abbreviation if available, fall back to id prefix)
+	const partyList = parties
+		.filter((p) => p.abbreviation != null)
+		.map((p) => ({
+			id: p.id,
+			abbreviation: p.abbreviation as string,
+			color: (p.color as string) ?? "#64748b",
+		}));
 	const partyIndex = new Map(partyList.map((p, i) => [p.id, i]));
 
 	// Build matrix: rows = industries, cols = parties
