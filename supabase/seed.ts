@@ -103,11 +103,11 @@ const INDUSTRIES = [
 const LEGAL_FORMS = ["AG", "GmbH", "Verein", "Stiftung", "Genossenschaft"];
 
 const ORG_NAME_PREFIXES_DE = [
-	"Schweizerischer", "Schweizer", "Nationaler", "Zentraler", "Eidgenossischer",
+	"Schweizerischer", "Schweizer", "Nationaler", "Zentraler", "Eidgenössischer",
 ];
 const ORG_NAME_SUFFIXES_DE: Record<string, string[]> = {
 	banking: ["Bankenverband", "Finanzgruppe", "Bankgesellschaft", "Kapitalgesellschaft"],
-	insurance: ["Versicherungsverband", "Versicherungsgruppe", "Ruckversicherung"],
+	insurance: ["Versicherungsverband", "Versicherungsgruppe", "Rückversicherung"],
 	pharma: ["Pharma", "Therapeutics", "Biotech", "Life Sciences"],
 	medtech: ["Medizintechnik", "Medical", "Health Solutions"],
 	energy: ["Energiekonzern", "Energie", "Power", "Kraftwerke"],
@@ -115,9 +115,9 @@ const ORG_NAME_SUFFIXES_DE: Record<string, string[]> = {
 	technology: ["Technologies", "Digital", "Systems", "Software"],
 	defense: ["Defense", "Sicherheitstechnik", "Security"],
 	consulting: ["Consulting", "Beratung", "Advisory"],
-	legal: ["Anwalte", "Kanzlei", "Rechtsberatung"],
+	legal: ["Anwälte", "Kanzlei", "Rechtsberatung"],
 	real_estate: ["Immobilien", "Real Estate", "Liegenschaften"],
-	transport: ["Transport", "Logistik", "Mobilitat"],
+	transport: ["Transport", "Logistik", "Mobilität"],
 	telecommunications: ["Telecom", "Communications", "Netzwerke"],
 	media: ["Medien", "Verlag", "Publishing"],
 	retail: ["Handel", "Retail", "Detailhandel"],
@@ -131,8 +131,8 @@ const ORG_NAME_SUFFIXES_DE: Record<string, string[]> = {
 	trade_association: ["Branchenverband", "Gewerbeverband", "Wirtschaftsverband"],
 };
 
-const FR_FIRST_NAMES_M = ["Jean", "Pierre", "Marc", "Philippe", "Alain", "Laurent", "Christophe", "Nicolas", "Francois", "Thierry"];
-const FR_FIRST_NAMES_F = ["Marie", "Catherine", "Isabelle", "Nathalie", "Sophie", "Valerie", "Monique", "Francoise", "Claire", "Anne"];
+const FR_FIRST_NAMES_M = ["Jean", "Pierre", "Marc", "Philippe", "Alain", "Laurent", "Christophe", "Nicolas", "François", "Thierry"];
+const FR_FIRST_NAMES_F = ["Marie", "Catherine", "Isabelle", "Nathalie", "Sophie", "Valérie", "Monique", "Françoise", "Claire", "Anne"];
 const FR_LAST_NAMES = ["Dupont", "Moreau", "Bernard", "Petit", "Robert", "Richard", "Durand", "Leroy", "Blanc", "Favre", "Martin", "Rochat", "Vuilleumier", "Berset", "Jaquet"];
 
 const IT_FIRST_NAMES_M = ["Marco", "Andrea", "Luca", "Giovanni", "Paolo", "Alessandro", "Roberto", "Carlo", "Fabio", "Matteo"];
@@ -145,37 +145,37 @@ const CONFIDENCE_LEVELS = ["verified", "declared", "media_reported", "inferred"]
 const CONFIDENCE_WEIGHTS = [20, 60, 15, 5];
 
 const ROLES_BY_TYPE: Record<string, string[]> = {
-	mandate: ["Verwaltungsrat", "Verwaltungsratsprasident", "Stiftungsrat", "Stiftungsratsprasident", "Beirat"],
-	membership: ["Mitglied", "Vorstandsmitglied", "Prasident", "Vizeprasident", "Kassier"],
+	mandate: ["Verwaltungsrat", "Verwaltungsratspräsident", "Stiftungsrat", "Stiftungsratspräsident", "Beirat"],
+	membership: ["Mitglied", "Vorstandsmitglied", "Präsident", "Vizeprasident", "Kassier"],
 	lobbying: ["Lobbyist", "Public Affairs Berater", "Interessenvertreter", "Zugangsberechtigter"],
-	donation: ["Spender", "Forderer", "Gonner"],
-	employment: ["Geschaftsfuhrer", "Partner", "Senior Berater", "Direktor", "Angestellter"],
+	donation: ["Spender", "Förderer", "Gönner"],
+	employment: ["Geschäftsführer", "Partner", "Senior Berater", "Direktor", "Angestellter"],
 };
 
 const VOTE_TOPICS = [
-	{ category: "finance", titles: ["Bundesgesetz uber die Verrechnungssteuer", "Anderung des Bankengesetzes", "Stabilisierung der AHV-Finanzen", "Revision des Steuerstrafrechts"] },
-	{ category: "healthcare", titles: ["Anderung des Krankenversicherungsgesetzes", "Bundesgesetz uber die Medizinalberufe", "Kostenbremse-Initiative", "Pflegeinitiative Umsetzung"] },
-	{ category: "environment", titles: ["CO2-Gesetz Revision", "Gegenvorschlag zur Gletscherinitiative", "Gewasserschutzgesetz Anderung", "Biodiversitatsinitiative"] },
-	{ category: "immigration", titles: ["Revision Asylgesetz", "Anderung Auslandergesetz", "Schengen-Weiterentwicklung", "Integrationsgesetz"] },
-	{ category: "defense", titles: ["Armeebotschaft", "Beschaffung Kampfflugzeuge", "Revision Militargesetz", "Nachrichtendienstgesetz"] },
+	{ category: "finance", titles: ["Bundesgesetz über die Verrechnungssteuer", "Änderung des Bankengesetzes", "Stabilisierung der AHV-Finanzen", "Revision des Steuerstrafrechts"] },
+	{ category: "healthcare", titles: ["Änderung des Krankenversicherungsgesetzes", "Bundesgesetz über die Medizinalberufe", "Kostenbremse-Initiative", "Pflegeinitiative Umsetzung"] },
+	{ category: "environment", titles: ["CO2-Gesetz Revision", "Gegenvorschlag zur Gletscherinitiative", "Gewässerschutzgesetz Änderung", "Biodiversitätsinitiative"] },
+	{ category: "immigration", titles: ["Revision Asylgesetz", "Änderung Ausländergesetz", "Schengen-Weiterentwicklung", "Integrationsgesetz"] },
+	{ category: "defense", titles: ["Armeebotschaft", "Beschaffung Kampfflugzeuge", "Revision Militärgesetz", "Nachrichtendienstgesetz"] },
 	{ category: "agriculture", titles: ["Agrarpolitik AP22+", "Direktzahlungsverordnung", "Revision Lebensmittelgesetz", "Pflanzenschutzmittel-Regulierung"] },
 	{ category: "economy", titles: ["Mindestlohn-Initiative", "Revision Arbeitsgesetz", "Unternehmenssteuerreform", "Kartellgesetz Revision"] },
-	{ category: "digital", titles: ["Bundesgesetz uber elektronische Identifizierung", "Datenschutzgesetz Revision", "Digitalisierungsstrategie", "Plattformregulierung"] },
+	{ category: "digital", titles: ["Bundesgesetz über elektronische Identifizierung", "Datenschutzgesetz Revision", "Digitalisierungsstrategie", "Plattformregulierung"] },
 ];
 
 // Parliamentary commissions (NR = Nationalrat, SR = Standerat)
 const COMMISSION_DEFS = [
 	{ code: "APK", name: "Aussenpolitische Kommission", name_fr: "Commission de politique exterieure", name_it: "Commissione della politica estera" },
 	{ code: "FK", name: "Finanzkommission", name_fr: "Commission des finances", name_it: "Commissione delle finanze" },
-	{ code: "GPK", name: "Geschaftsprufungskommission", name_fr: "Commission de gestion", name_it: "Commissione della gestione" },
-	{ code: "KVF", name: "Kommission fur Verkehr und Fernmeldewesen", name_fr: "Commission des transports et des telecommunications", name_it: "Commissione dei trasporti e delle telecomunicazioni" },
-	{ code: "RK", name: "Kommission fur Rechtsfragen", name_fr: "Commission des affaires juridiques", name_it: "Commissione degli affari giuridici" },
-	{ code: "SGK", name: "Kommission fur soziale Sicherheit und Gesundheit", name_fr: "Commission de la securite sociale et de la sante publique", name_it: "Commissione della sicurezza sociale e della sanita" },
+	{ code: "GPK", name: "Geschäftsprüfungskommission", name_fr: "Commission de gestion", name_it: "Commissione della gestione" },
+	{ code: "KVF", name: "Kommission für Verkehr und Fernmeldewesen", name_fr: "Commission des transports et des telecommunications", name_it: "Commissione dei trasporti e delle telecomunicazioni" },
+	{ code: "RK", name: "Kommission für Rechtsfragen", name_fr: "Commission des affaires juridiques", name_it: "Commissione degli affari giuridici" },
+	{ code: "SGK", name: "Kommission für soziale Sicherheit und Gesundheit", name_fr: "Commission de la securite sociale et de la sante publique", name_it: "Commissione della sicurezza sociale e della sanita" },
 	{ code: "SiK", name: "Sicherheitspolitische Kommission", name_fr: "Commission de la politique de securite", name_it: "Commissione della politica di sicurezza" },
 	{ code: "SPK", name: "Staatspolitische Kommission", name_fr: "Commission des institutions politiques", name_it: "Commissione delle istituzioni politiche" },
-	{ code: "UREK", name: "Kommission fur Umwelt, Raumplanung und Energie", name_fr: "Commission de l'environnement, de l'amenagement du territoire et de l'energie", name_it: "Commissione dell'ambiente, della pianificazione del territorio e dell'energia" },
-	{ code: "WAK", name: "Kommission fur Wirtschaft und Abgaben", name_fr: "Commission de l'economie et des redevances", name_it: "Commissione dell'economia e dei tributi" },
-	{ code: "WBK", name: "Kommission fur Wissenschaft, Bildung und Kultur", name_fr: "Commission de la science, de l'education et de la culture", name_it: "Commissione della scienza, dell'educazione e della cultura" },
+	{ code: "UREK", name: "Kommission für Umwelt, Raumplanung und Energie", name_fr: "Commission de l'environnement, de l'amenagement du territoire et de l'energie", name_it: "Commissione dell'ambiente, della pianificazione del territorio e dell'energia" },
+	{ code: "WAK", name: "Kommission für Wirtschaft und Abgaben", name_fr: "Commission de l'economie et des redevances", name_it: "Commissione dell'economia e dei tributi" },
+	{ code: "WBK", name: "Kommission für Wissenschaft, Bildung und Kultur", name_fr: "Commission de la science, de l'education et de la culture", name_it: "Commissione della scienza, dell'educazione e della cultura" },
 ];
 
 // ── Main seed function ───────────────────────────────────────
@@ -195,9 +195,9 @@ async function seed() {
 	const dataSources = [
 		{ id: "parlament-ch", name: "parlament_ch", display_name: "parlament.ch", base_url: "https://www.parlament.ch", description: "Offizielle Daten des Schweizer Parlaments - Ratsmitglieder und Interessenbindungen", record_count: 0, sync_frequency_hours: 24, last_synced_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString() },
 		{ id: "zefix", name: "zefix", display_name: "Zefix / Handelsregister", base_url: "https://www.zefix.admin.ch", description: "Schweizerisches Handelsamtsblatt - Verwaltungsratsmandate und Unternehmensstrukturen", record_count: 0, sync_frequency_hours: 168, last_synced_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString() },
-		{ id: "lobbywatch", name: "lobbywatch", display_name: "Lobbywatch.ch", base_url: "https://lobbywatch.ch", description: "NGO-Daten uber Lobbyismus im Bundeshaus", record_count: 0, sync_frequency_hours: 72, last_synced_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString() },
+		{ id: "lobbywatch", name: "lobbywatch", display_name: "Lobbywatch.ch", base_url: "https://lobbywatch.ch", description: "NGO-Daten über Lobbyismus im Bundeshaus", record_count: 0, sync_frequency_hours: 72, last_synced_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString() },
 		{ id: "lobbyregister", name: "lobbyregister", display_name: "Lobbyregister", base_url: "https://www.parlament.ch/de/services/lobbyregister", description: "Offizielles Lobbyregister des Parlaments", record_count: 0, sync_frequency_hours: 48, last_synced_at: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString() },
-		{ id: "eidg-kanzlei", name: "eidg_kanzlei", display_name: "Eidgenossische Bundeskanzlei", base_url: "https://www.bk.admin.ch", description: "Transparenz politischer Finanzierung und Abstimmungskomitees", record_count: 0, sync_frequency_hours: 720, last_synced_at: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString() },
+		{ id: "eidg-kanzlei", name: "eidg_kanzlei", display_name: "Eidgenössische Bundeskanzlei", base_url: "https://www.bk.admin.ch", description: "Transparenz politischer Finanzierung und Abstimmungskomitees", record_count: 0, sync_frequency_hours: 720, last_synced_at: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString() },
 	];
 
 	const { error: dsError } = await supabase.from("data_sources").insert(dataSources);
@@ -466,7 +466,7 @@ async function seed() {
 			commConnectionKeys.add(key);
 
 			// ~8% chance of being president
-			const role = Math.random() < 0.08 ? "Prasident" : "Mitglied";
+			const role = Math.random() < 0.08 ? "Präsident" : "Mitglied";
 
 			commConnectionInserts.push({
 				source_actor_id: politicianId,
@@ -499,7 +499,7 @@ async function seed() {
 			if (commConnectionKeys.has(key)) continue;
 			commConnectionKeys.add(key);
 
-			const role = Math.random() < 0.08 ? "Prasident" : "Mitglied";
+			const role = Math.random() < 0.08 ? "Präsident" : "Mitglied";
 
 			commConnectionInserts.push({
 				source_actor_id: politicianId,
@@ -618,7 +618,7 @@ async function seed() {
 				vote_date: faker.date.between({ from: "2020-01-01", to: "2025-12-31" }).toISOString().split("T")[0],
 				council,
 				topic_category: topic.category,
-				description: `Abstimmung uber ${title}`,
+				description: `Abstimmung über ${title}`,
 			});
 		}
 	}

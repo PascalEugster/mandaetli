@@ -227,7 +227,7 @@ function PathDetail({
 				<p className="text-body-sm font-semibold text-text-primary">{toLabel}</p>
 			</div>
 			<p className="text-caption text-text-tertiary">
-				Der kurzeste Pfad ist im Graphen hervorgehoben.
+				Der kürzeste Pfad ist im Graphen hervorgehoben.
 			</p>
 		</div>
 	);

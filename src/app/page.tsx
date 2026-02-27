@@ -13,7 +13,10 @@ export default async function Home() {
 		{ count: partyCount },
 		{ count: connectionCount },
 		{ data: dataSources },
-		{ data: connections },
+		{ count: verifiedCount },
+		{ count: declaredCount },
+		{ count: mediaReportedCount },
+		{ count: inferredCount },
 		{ data: recentConnections },
 	] = await Promise.all([
 		supabase.from("actors").select("*", { count: "exact", head: true }).eq("actor_type", "person"),
@@ -24,7 +27,22 @@ export default async function Home() {
 		supabase.from("actors").select("*", { count: "exact", head: true }).eq("actor_type", "party"),
 		supabase.from("connections").select("*", { count: "exact", head: true }),
 		supabase.from("data_sources").select("*").order("last_synced_at", { ascending: false }),
-		supabase.from("connections").select("id, confidence").limit(5000),
+		supabase
+			.from("connections")
+			.select("*", { count: "exact", head: true })
+			.eq("confidence", "verified"),
+		supabase
+			.from("connections")
+			.select("*", { count: "exact", head: true })
+			.eq("confidence", "declared"),
+		supabase
+			.from("connections")
+			.select("*", { count: "exact", head: true })
+			.eq("confidence", "media_reported"),
+		supabase
+			.from("connections")
+			.select("*", { count: "exact", head: true })
+			.eq("confidence", "inferred"),
 		supabase
 			.from("connections")
 			.select(
@@ -34,18 +52,12 @@ export default async function Home() {
 			.limit(10),
 	]);
 
-	// Count confidence levels
 	const confidenceCounts: Record<string, number> = {
-		verified: 0,
-		declared: 0,
-		media_reported: 0,
-		inferred: 0,
+		verified: verifiedCount ?? 0,
+		declared: declaredCount ?? 0,
+		media_reported: mediaReportedCount ?? 0,
+		inferred: inferredCount ?? 0,
 	};
-	for (const c of connections ?? []) {
-		if (c.confidence in confidenceCounts) {
-			confidenceCounts[c.confidence]++;
-		}
-	}
 
 	return (
 		<div className="px-6 py-8 lg:px-10">
@@ -62,7 +74,7 @@ export default async function Home() {
 						Lobbygruppen — transparent und interaktiv visualisiert.
 					</p>
 					<p className="mt-2 text-body-sm text-text-muted">
-						Basierend auf offentlich zuganglichen Daten aus offiziellen Schweizer Registern.
+						Basierend auf öffentlich zugänglichen Daten aus offiziellen Schweizer Registern.
 					</p>
 				</div>
 			</section>

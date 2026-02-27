@@ -38,7 +38,7 @@
 	--color-confidence-verified: #22c55e;
 	--color-confidence-declared: #3b82f6;
 	--color-confidence-reported: #eab308;
-	--color-confidence-inferred: #f97316;
+	--color-confidence-inferred: #64748b;
 
 	/* Fonts */
 	--font-sans: var(--font-inter);

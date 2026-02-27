@@ -248,7 +248,7 @@ export const CONNECTION_TYPE_LABELS: Record<string, { label: string; description
 export const CONFIDENCE_LABELS: Record<string, { label: string; description: string }> = {
 	verified: {
 		label: "Verifiziert",
-		description: "Aus offizieller Quelle bestatigt",
+		description: "Aus offizieller Quelle bestätigt",
 	},
 	declared: {
 		label: "Deklariert",
@@ -284,11 +284,11 @@ export const DATA_SOURCES = [
 		id: "lobbywatch",
 		name: "Lobbywatch.ch",
 		url: "https://lobbywatch.ch",
-		description: "NGO-Daten uber Lobbyismus im Bundeshaus",
+		description: "NGO-Daten über Lobbyismus im Bundeshaus",
 	},
 	{
 		id: "eidg-kanzlei",
-		name: "Eidgenossische Bundeskanzlei",
+		name: "Eidgenössische Bundeskanzlei",
 		url: "https://www.bk.admin.ch",
 		description: "Transparenz politischer Finanzierung und Abstimmungskomitees",
 	},
@@ -296,6 +296,6 @@ export const DATA_SOURCES = [
 		id: "media",
 		name: "Medienberichte",
 		url: "",
-		description: "Verbindungen aus offentlichen Medienberichten",
+		description: "Verbindungen aus öffentlichen Medienberichten",
 	},
 ] as const;

@@ -211,7 +211,7 @@ export function GraphControls({ open, onClose }: { open: boolean; onClose: () =>
 					onClick={clearAll}
 					className="w-full rounded-md bg-surface-2 py-2 text-body-sm text-text-secondary transition-colors hover:bg-surface-3 hover:text-text-primary"
 				>
-					Alle zurucksetzen
+					Alle zurücksetzen
 				</button>
 			</div>
 		</div>

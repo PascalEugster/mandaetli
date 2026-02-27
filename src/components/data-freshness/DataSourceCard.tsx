@@ -12,7 +12,7 @@ export function DataSourceCard({ source }: { source: DataSource }) {
 			</div>
 			<p className="mt-1 text-body-sm text-text-muted">{source.description}</p>
 			<div className="mt-3 flex items-center justify-between text-caption text-text-muted">
-				<span className="font-mono">{source.record_count.toLocaleString("de-CH")} Eintrage</span>
+				<span className="font-mono">{source.record_count.toLocaleString("de-CH")} Einträge</span>
 				<span>{formatRelativeTime(source.last_synced_at)}</span>
 			</div>
 		</div>
