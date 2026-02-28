@@ -7,6 +7,7 @@ import { MiniEgoGraphLoader } from "@/components/profiles/MiniEgoGraphLoader";
 import { PersonHeader } from "@/components/profiles/PersonHeader";
 import { VotingRecord } from "@/components/profiles/VotingRecord";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { WatchButton } from "@/components/watchlist/WatchButton";
 import {
 	getPersonBySlug,
 	getPersonCommissions,
@@ -81,6 +82,7 @@ export default async function PersonProfilePage({ params }: Props) {
 				connectionCount={connections.length}
 				commissionNames={commissionNames}
 			/>
+			<WatchButton actorId={person.id} />
 
 			<div className="grid gap-6 lg:grid-cols-3">
 				{/* Left column */}

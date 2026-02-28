@@ -5,6 +5,7 @@ import { PartyHeader } from "@/components/profiles/PartyHeader";
 import { PartyMembers } from "@/components/profiles/PartyMembers";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { WatchButton } from "@/components/watchlist/WatchButton";
 import { getPartyBySlug, getPartyConnectionStats, getPartyMembers } from "@/lib/data/parties";
 import { createClient } from "@/lib/supabase/server";
 
@@ -71,6 +72,7 @@ export default async function PartyProfilePage({ params }: Props) {
 	return (
 		<div className="space-y-6 p-6">
 			<PartyHeader party={party} memberCount={members.length} />
+			<WatchButton actorId={party.id} />
 
 			<Card>
 				<CardHeader>

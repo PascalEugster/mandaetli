@@ -5,6 +5,7 @@ import { ConnectionList } from "@/components/profiles/ConnectionList";
 import { MiniEgoGraphLoader } from "@/components/profiles/MiniEgoGraphLoader";
 import { OrgHeader } from "@/components/profiles/OrgHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { WatchButton } from "@/components/watchlist/WatchButton";
 import { getOrgBySlug, getOrgConnections } from "@/lib/data/organizations";
 import { createClient } from "@/lib/supabase/server";
 
@@ -50,6 +51,7 @@ export default async function OrganizationProfilePage({ params }: Props) {
 	return (
 		<div className="space-y-6 p-6">
 			<OrgHeader org={org} connectionCount={connections.length} />
+			<WatchButton actorId={org.id} />
 
 			<div className="grid gap-6 lg:grid-cols-3">
 				<div className="lg:col-span-2">
