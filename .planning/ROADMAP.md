@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Network Graph Visualization** - Interactive WebGL force-directed graph with progressive disclosure and basic controls
 - [x] **Phase 3: Profiles and Search** - SSR politician/organization/party profile pages with global search and autocomplete
 - [x] **Phase 4: Sharing, Filtering, and Polish** - Shareable URLs, advanced filtering, responsive design, and progressive disclosure across all views
-- [ ] **Phase 5: Watchlist and Alerts** - Email-based watchlist for tracking politicians and organizations with change notifications
+- [x] **Phase 5: Watchlist and Alerts** - Email-based watchlist for tracking politicians and organizations with change notifications
 
 ## Phase Details
 
@@ -100,7 +100,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 05-01: TBD
+- [x] 05-01: Watchlist database schema, data layer, API routes, WatchButton, management page
 
 ## Progress
 
@@ -113,4 +113,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. Network Graph Visualization | 3/3 | Complete | 2026-02-27 |
 | 3. Profiles and Search | 3/3 | Complete | 2026-02-27 |
 | 4. Sharing, Filtering, and Polish | 3/3 | Complete | 2026-02-28 |
-| 5. Watchlist and Alerts | 0/1 | Not started | - |
+| 5. Watchlist and Alerts | 1/1 | Complete | 2026-02-28 |
