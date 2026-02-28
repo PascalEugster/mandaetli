@@ -81,11 +81,12 @@ Plans:
   3. Progressive disclosure is implemented across all views: overview shows summary, clicking reveals detail, detail links to raw data/sources; every numeric value shows its source on hover
   4. Confidence level badges are consistently visible on all connections and data points across the entire platform
   5. Profile pages, search, and list views are fully usable on mobile; the graph view shows an appropriate mobile alternative (simplified list/card view) on small screens
-**Plans**: TBD
+**Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01: OG preview images, enhanced metadata, copy-link button with toast (Wave 1)
+- [ ] 04-02: Source tooltips, confidence badges, conflict score neutrality, progressive disclosure, graph camera URL state (Wave 1)
+- [ ] 04-03: Mobile-responsive profiles/lists, Connection Explorer graph alternative, search type tabs (Wave 2)
 
 ### Phase 5: Watchlist and Alerts
 **Goal**: Users can track politicians and organizations they care about and get notified when something changes, without needing an account
@@ -111,5 +112,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Foundation and Mock Data | 3/3 | Complete | 2026-02-27 |
 | 2. Network Graph Visualization | 3/3 | Complete | 2026-02-27 |
 | 3. Profiles and Search | 3/3 | Complete | 2026-02-27 |
-| 4. Sharing, Filtering, and Polish | 0/2 | Not started | - |
+| 4. Sharing, Filtering, and Polish | 0/3 | In progress | - |
 | 5. Watchlist and Alerts | 0/1 | Not started | - |
