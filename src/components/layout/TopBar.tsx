@@ -1,5 +1,6 @@
 import { Database, Menu } from "lucide-react";
 import Link from "next/link";
+import { CopyLinkButton } from "@/components/layout/CopyLinkButton";
 import { GlobalSearch } from "@/components/search/GlobalSearch";
 
 export function TopBar({ onMenuToggle }: { onMenuToggle?: () => void }) {
@@ -26,6 +27,8 @@ export function TopBar({ onMenuToggle }: { onMenuToggle?: () => void }) {
 
 				<div className="flex items-center gap-4">
 					<GlobalSearch />
+
+					<CopyLinkButton />
 
 					{/* Data status indicator */}
 					<div className="flex items-center gap-1.5 text-text-muted" title="Datenquellen aktiv">

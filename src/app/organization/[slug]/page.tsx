@@ -15,7 +15,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { slug } = await params;
 	const org = await getOrgBySlug(slug);
 	if (!org) return { title: "Nicht gefunden - Seilschaften.ch" };
-	return { title: `${org.name} - Seilschaften.ch` };
+	const description = `${org.name} — Verbindungen zu Schweizer Politiker:innen`;
+	return {
+		title: `${org.name} - Seilschaften.ch`,
+		description,
+		openGraph: {
+			title: `${org.name} - Seilschaften.ch`,
+			description,
+			type: "website",
+			siteName: "Seilschaften.ch",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: `${org.name} - Seilschaften.ch`,
+			description,
+		},
+	};
 }
 
 export default async function OrganizationProfilePage({ params }: Props) {

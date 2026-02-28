@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next";
 import { AppShell } from "@/components/layout/AppShell";
+import { Toaster } from "@/components/ui/toast";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,9 +16,18 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "Seilschaften.ch — Swiss Political Transparency",
+	metadataBase: new URL("https://seilschaften.ch"),
+	title: "Seilschaften.ch",
 	description:
-		"Visualize connections between Swiss politicians, parties, companies, and lobby groups. Built on public data from official Swiss registers.",
+		"Visualisiere die Verbindungen zwischen Schweizer Politiker:innen, Parteien, Unternehmen und Lobbygruppen.",
+	openGraph: {
+		siteName: "Seilschaften.ch",
+		locale: "de_CH",
+		type: "website",
+	},
+	twitter: {
+		card: "summary_large_image",
+	},
 };
 
 export default function RootLayout({
@@ -30,6 +40,7 @@ export default function RootLayout({
 			<body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
 				<NuqsAdapter>
 					<AppShell>{children}</AppShell>
+					<Toaster />
 				</NuqsAdapter>
 			</body>
 		</html>

@@ -16,7 +16,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { slug } = await params;
 	const party = await getPartyBySlug(slug);
 	if (!party) return { title: "Nicht gefunden - Seilschaften.ch" };
-	return { title: `${party.abbreviation ?? party.name} (${party.name}) - Seilschaften.ch` };
+	const title = `${party.abbreviation ?? party.name} (${party.name}) - Seilschaften.ch`;
+	const description = `${party.name} — Mitglieder, Branchenverbindungen und politisches Netzwerk`;
+	return {
+		title,
+		description,
+		openGraph: {
+			title,
+			description,
+			type: "website",
+			siteName: "Seilschaften.ch",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title,
+			description,
+		},
+	};
 }
 
 export default async function PartyProfilePage({ params }: Props) {

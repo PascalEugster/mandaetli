@@ -1,6 +1,24 @@
+import type { Metadata } from "next";
 import { GraphContainer } from "@/components/graph/GraphContainer";
 import type { GraphActor, GraphConnection, GraphParty } from "@/lib/graph/types";
 import { createClient } from "@/lib/supabase/server";
+
+export const metadata: Metadata = {
+	title: "Netzwerk - Seilschaften.ch",
+	description:
+		"Interaktive Visualisierung der Verbindungen zwischen Schweizer Politiker:innen, Parteien und Organisationen.",
+	openGraph: {
+		title: "Netzwerk - Seilschaften.ch",
+		description:
+			"Interaktive Visualisierung der Verbindungen zwischen Schweizer Politiker:innen, Parteien und Organisationen.",
+		type: "website",
+		siteName: "Seilschaften.ch",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Netzwerk - Seilschaften.ch",
+	},
+};
 
 export default async function NetzwerkPage() {
 	const supabase = await createClient();

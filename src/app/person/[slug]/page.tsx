@@ -27,7 +27,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 		person.first_name && person.last_name
 			? `${person.first_name} ${person.last_name}`
 			: person.name;
-	return { title: `${name} - Seilschaften.ch` };
+	const description = `${name} — Interessenbindungen und politisches Netzwerk`;
+	return {
+		title: `${name} - Seilschaften.ch`,
+		description,
+		openGraph: {
+			title: `${name} - Seilschaften.ch`,
+			description,
+			type: "profile",
+			siteName: "Seilschaften.ch",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: `${name} - Seilschaften.ch`,
+			description,
+		},
+	};
 }
 
 export default async function PersonProfilePage({ params }: Props) {
