@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ActorCard } from "@/components/lists/ActorCard";
 import { Badge } from "@/components/ui/badge";
 import {
 	Table,
@@ -86,7 +87,32 @@ export default async function PersonListPage({ searchParams }: Props) {
 				<p className="text-sm text-text-secondary">{persons.length} Ratsmitglieder</p>
 			</div>
 
-			<Table>
+			{/* Mobile card layout */}
+			<div className="space-y-2 md:hidden">
+				{persons.map((person) => {
+					const party = person.party_id ? partyMap.get(person.party_id) : null;
+					return (
+						<ActorCard
+							key={person.id}
+							name={`${person.first_name} ${person.last_name}`}
+							href={`/person/${person.slug}`}
+							badge={
+								party
+									? { label: party.abbreviation ?? "", color: party.color ?? "#64748b" }
+									: undefined
+							}
+							meta={[
+								cantonName(person.canton),
+								formatCouncil(person.council),
+								`${connCounts[person.id] ?? 0} Verbindungen`,
+							].filter(Boolean)}
+						/>
+					);
+				})}
+			</div>
+
+			{/* Desktop table layout */}
+			<Table className="hidden md:table">
 				<TableHeader>
 					<TableRow>
 						<TableHead>

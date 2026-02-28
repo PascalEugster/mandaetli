@@ -63,7 +63,7 @@ export function PartyMembers({ members, connectionCounts }: PartyMembersProps) {
 							onSort={handleSort}
 						/>
 					</TableHead>
-					<TableHead>
+					<TableHead className="hidden md:table-cell">
 						<SortableHeader
 							label="Kanton"
 							field="canton"
@@ -72,7 +72,7 @@ export function PartyMembers({ members, connectionCounts }: PartyMembersProps) {
 							onSort={handleSort}
 						/>
 					</TableHead>
-					<TableHead>
+					<TableHead className="hidden md:table-cell">
 						<SortableHeader
 							label="Rat"
 							field="council"
@@ -103,8 +103,12 @@ export function PartyMembers({ members, connectionCounts }: PartyMembersProps) {
 								{member.first_name} {member.last_name}
 							</Link>
 						</TableCell>
-						<TableCell className="text-text-secondary">{cantonName(member.canton)}</TableCell>
-						<TableCell className="text-text-secondary">{formatCouncil(member.council)}</TableCell>
+						<TableCell className="hidden text-text-secondary md:table-cell">
+							{cantonName(member.canton)}
+						</TableCell>
+						<TableCell className="hidden text-text-secondary md:table-cell">
+							{formatCouncil(member.council)}
+						</TableCell>
 						<TableCell className="text-text-secondary">
 							{connectionCounts[member.id] ?? 0}
 						</TableCell>

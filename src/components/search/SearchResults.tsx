@@ -23,9 +23,17 @@ function actorHref(result: SearchResult): string {
 type SearchResultsProps = {
 	query: string;
 	results: SearchResult[];
+	typeFilter?: string;
 };
 
-export function SearchResults({ query, results }: SearchResultsProps) {
+const TYPE_TABS = [
+	{ key: undefined, label: "Alle" },
+	{ key: "person", label: "Politiker:innen" },
+	{ key: "organization", label: "Organisationen" },
+	{ key: "party", label: "Parteien" },
+] as const;
+
+export function SearchResults({ query, results, typeFilter }: SearchResultsProps) {
 	if (!query) {
 		return <p className="text-text-muted">Suchbegriff eingeben</p>;
 	}
@@ -34,9 +42,12 @@ export function SearchResults({ query, results }: SearchResultsProps) {
 		return <p className="text-text-muted">Keine Ergebnisse fur &ldquo;{query}&rdquo;</p>;
 	}
 
+	// Filter by type if set
+	const filtered = typeFilter ? results.filter((r) => r.actor_type === typeFilter) : results;
+
 	// Group by type
 	const grouped = new Map<string, SearchResult[]>();
-	for (const r of results) {
+	for (const r of filtered) {
 		const list = grouped.get(r.actor_type) ?? [];
 		list.push(r);
 		grouped.set(r.actor_type, list);
@@ -44,6 +55,33 @@ export function SearchResults({ query, results }: SearchResultsProps) {
 
 	return (
 		<div className="space-y-6">
+			{/* Type filter tabs */}
+			<div className="flex gap-4 border-b border-border-subtle">
+				{TYPE_TABS.map((tab) => {
+					const isActive = typeFilter === tab.key || (!typeFilter && tab.key === undefined);
+					const href = tab.key
+						? `/suche?q=${encodeURIComponent(query)}&type=${tab.key}`
+						: `/suche?q=${encodeURIComponent(query)}`;
+					return (
+						<Link
+							key={tab.label}
+							href={href}
+							className={`pb-2 text-sm transition-colors ${
+								isActive
+									? "border-b-2 border-swiss-red font-medium text-text-primary"
+									: "text-text-muted hover:text-text-primary"
+							}`}
+						>
+							{tab.label}
+						</Link>
+					);
+				})}
+			</div>
+
+			{filtered.length === 0 && (
+				<p className="text-text-muted">Keine Ergebnisse in dieser Kategorie</p>
+			)}
+
 			{Array.from(grouped.entries()).map(([type, items]) => {
 				const Icon = TYPE_ICONS[type] ?? User;
 				return (
@@ -60,7 +98,7 @@ export function SearchResults({ query, results }: SearchResultsProps) {
 									className="flex items-center gap-3 rounded-md p-2 text-text-secondary transition-colors hover:bg-surface-1 hover:text-text-primary"
 								>
 									<Icon size={16} strokeWidth={1.5} className="shrink-0 text-text-muted" />
-									<span>
+									<span className="truncate">
 										{result.first_name && result.last_name
 											? `${result.first_name} ${result.last_name}`
 											: result.name}

@@ -102,8 +102,8 @@ export function VotingRecord({ voteRecords }: VotingRecordProps) {
 							/>
 						</TableHead>
 						<TableHead>Titel</TableHead>
-						<TableHead>Rat</TableHead>
-						<TableHead>
+						<TableHead className="hidden md:table-cell">Rat</TableHead>
+						<TableHead className="hidden md:table-cell">
 							<SortableHeader
 								label="Thema"
 								field="topic_category"
@@ -126,8 +126,10 @@ export function VotingRecord({ voteRecords }: VotingRecordProps) {
 								<TableCell className="max-w-xs truncate text-text-primary">
 									{record.vote.affair_title}
 								</TableCell>
-								<TableCell className="text-text-secondary">{record.vote.council}</TableCell>
-								<TableCell className="text-text-secondary">
+								<TableCell className="hidden text-text-secondary md:table-cell">
+									{record.vote.council}
+								</TableCell>
+								<TableCell className="hidden text-text-secondary md:table-cell">
 									{record.vote.topic_category ?? "-"}
 								</TableCell>
 								<TableCell>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ActorCard } from "@/components/lists/ActorCard";
 import {
 	Table,
 	TableBody,
@@ -66,7 +67,25 @@ export default async function OrganizationListPage({ searchParams }: Props) {
 				<p className="text-sm text-text-secondary">{organizations.length} Organisationen</p>
 			</div>
 
-			<Table>
+			{/* Mobile card layout */}
+			<div className="space-y-2 md:hidden">
+				{organizations.map((org) => (
+					<ActorCard
+						key={org.id}
+						name={org.name}
+						href={`/organization/${org.slug}`}
+						subtitle={org.industry ?? undefined}
+						meta={[
+							org.legal_form ?? undefined,
+							org.headquarters ?? undefined,
+							`${connCounts[org.id] ?? 0} Verbindungen`,
+						].filter((v): v is string => v != null)}
+					/>
+				))}
+			</div>
+
+			{/* Desktop table layout */}
+			<Table className="hidden md:table">
 				<TableHeader>
 					<TableRow>
 						<TableHead>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ConnectionList } from "@/components/profiles/ConnectionList";
 import { MiniEgoGraphLoader } from "@/components/profiles/MiniEgoGraphLoader";
@@ -68,12 +69,20 @@ export default async function OrganizationProfilePage({ params }: Props) {
 							<CardTitle>Netzwerk</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<MiniEgoGraphLoader
-								centerActor={org}
-								connections={rawConnections}
-								neighbors={neighborActors}
-								parties={partiesData}
-							/>
+							<div className="hidden lg:block">
+								<MiniEgoGraphLoader
+									centerActor={org}
+									connections={rawConnections}
+									neighbors={neighborActors}
+									parties={partiesData}
+								/>
+							</div>
+							<Link
+								href={`/netzwerk?selected=${org.slug}`}
+								className="block text-sm text-swiss-red hover:underline lg:hidden"
+							>
+								Im Netzwerk anzeigen
+							</Link>
 						</CardContent>
 					</Card>
 				</div>

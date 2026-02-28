@@ -12,8 +12,8 @@ export function PartyHeader({ party, memberCount }: PartyHeaderProps) {
 	const position = party.ideology_position != null ? Number(party.ideology_position) : null;
 
 	return (
-		<div className="space-y-3">
-			<div className="flex flex-wrap items-center gap-3">
+		<div className="space-y-3 text-center sm:text-left">
+			<div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
 				<h1 className="text-2xl font-bold text-text-primary">{party.name}</h1>
 				{party.abbreviation && (
 					<span className="text-lg font-medium text-text-secondary">({party.abbreviation})</span>
@@ -40,7 +40,7 @@ export function PartyHeader({ party, memberCount }: PartyHeaderProps) {
 				</div>
 			)}
 
-			<div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-text-secondary">
+			<div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-text-secondary sm:justify-start">
 				{party.seats_nr != null && party.seats_sr != null && (
 					<span>
 						{party.seats_nr} Sitze im Nationalrat, {party.seats_sr} Sitze im Standerat

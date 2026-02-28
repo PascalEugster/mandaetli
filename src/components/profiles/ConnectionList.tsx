@@ -85,10 +85,10 @@ export function ConnectionList({ connections }: ConnectionListProps) {
 								onSort={handleSort}
 							/>
 						</TableHead>
-						<TableHead>Rolle</TableHead>
+						<TableHead className="hidden md:table-cell">Rolle</TableHead>
 						<TableHead>Konfidenz</TableHead>
-						<TableHead>Bezahlt</TableHead>
-						<TableHead>Quelle</TableHead>
+						<TableHead className="hidden md:table-cell">Bezahlt</TableHead>
+						<TableHead className="hidden md:table-cell">Quelle</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -105,7 +105,9 @@ export function ConnectionList({ connections }: ConnectionListProps) {
 							<TableCell className="text-text-secondary">
 								{connectionTypeLabel(conn.connection_type)}
 							</TableCell>
-							<TableCell className="text-text-secondary">{conn.role || "-"}</TableCell>
+							<TableCell className="hidden text-text-secondary md:table-cell">
+								{conn.role || "-"}
+							</TableCell>
 							<TableCell>
 								<Badge variant="outline" className="gap-1.5">
 									<span
@@ -115,10 +117,10 @@ export function ConnectionList({ connections }: ConnectionListProps) {
 									{confidenceLabel(conn.confidence)}
 								</Badge>
 							</TableCell>
-							<TableCell className="text-text-secondary">
+							<TableCell className="hidden text-text-secondary md:table-cell">
 								{conn.is_paid === true ? "Ja" : conn.is_paid === false ? "Nein" : "-"}
 							</TableCell>
-							<TableCell>
+							<TableCell className="hidden md:table-cell">
 								{conn.source_url ? (
 									<a
 										href={conn.source_url}

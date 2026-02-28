@@ -21,7 +21,7 @@ export function PersonHeader({
 	commissionNames,
 }: PersonHeaderProps) {
 	return (
-		<div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+		<div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:items-start sm:text-left">
 			{/* Photo */}
 			<div className="flex size-24 shrink-0 items-center justify-center rounded-full bg-surface-2">
 				{person.portrait_url ? (

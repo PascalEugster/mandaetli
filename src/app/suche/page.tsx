@@ -8,11 +8,11 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-	searchParams: Promise<{ q?: string }>;
+	searchParams: Promise<{ q?: string; type?: string }>;
 };
 
 export default async function SearchPage({ searchParams }: Props) {
-	const { q = "" } = await searchParams;
+	const { q = "", type: typeFilter } = await searchParams;
 
 	let results: SearchResult[] = [];
 	if (q.trim()) {
@@ -30,7 +30,7 @@ export default async function SearchPage({ searchParams }: Props) {
 				)}
 			</div>
 
-			<SearchResults query={q} results={results} />
+			<SearchResults query={q} results={results} typeFilter={typeFilter} />
 		</div>
 	);
 }
