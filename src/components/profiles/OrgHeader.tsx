@@ -2,6 +2,7 @@
 
 import { ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { SourceTooltip } from "@/components/ui/source-tooltip";
 import type { Actor } from "@/types/domain";
 
 type OrgHeaderProps = {
@@ -37,7 +38,10 @@ export function OrgHeader({ org, connectionCount }: OrgHeaderProps) {
 			)}
 
 			<p className="text-sm font-medium text-swiss-red">
-				{connectionCount} verbundene Politiker:innen
+				<SourceTooltip source="Handelsregister" date="15.11.2025">
+					{connectionCount}
+				</SourceTooltip>{" "}
+				verbundene Politiker:innen
 			</p>
 		</div>
 	);

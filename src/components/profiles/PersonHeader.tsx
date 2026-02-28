@@ -3,6 +3,7 @@
 import { User } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import { SourceTooltip } from "@/components/ui/source-tooltip";
 import { cantonName, formatCouncil, formatSwissDate } from "@/lib/utils/formatters";
 import type { Actor } from "@/types/domain";
 
@@ -61,7 +62,12 @@ export function PersonHeader({
 					<p className="text-sm text-text-secondary">{commissionNames.join(", ")}</p>
 				)}
 
-				<p className="text-sm font-medium text-swiss-red">{connectionCount} Verbindungen</p>
+				<p className="text-sm font-medium text-swiss-red">
+					<SourceTooltip source="parlament.ch" date="15.11.2025">
+						{connectionCount}
+					</SourceTooltip>{" "}
+					Verbindungen
+				</p>
 			</div>
 		</div>
 	);

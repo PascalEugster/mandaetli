@@ -33,17 +33,11 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
 
 	// Fetch member count and total connections
 	const supabase = await createClient();
-	const [memberResult, connResult] = await Promise.all([
-		supabase
-			.from("actors")
-			.select("id", { count: "exact", head: true })
-			.eq("actor_type", "person")
-			.eq("party_id", party.id),
-		supabase
-			.from("connections")
-			.select("source_actor_id", { count: "exact", head: true })
-			.is("valid_until", null),
-	]);
+	const memberResult = await supabase
+		.from("actors")
+		.select("id", { count: "exact", head: true })
+		.eq("actor_type", "person")
+		.eq("party_id", party.id);
 
 	const memberCount = memberResult.count ?? 0;
 

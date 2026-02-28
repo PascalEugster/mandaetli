@@ -3,8 +3,10 @@
 import { useSigma } from "@react-sigma/core";
 import { X } from "lucide-react";
 import { useQueryStates } from "nuqs";
+import { ConfidenceBadge } from "@/components/data-freshness/ConfidenceBadge";
 import { graphSearchParams } from "@/lib/graph/search-params";
 import { useGraphStore } from "@/stores/graph-store";
+import type { ConfidenceLevel } from "@/types";
 
 const CONNECTION_LABELS: Record<string, string> = {
 	mandate: "Mandat",
@@ -12,13 +14,6 @@ const CONNECTION_LABELS: Record<string, string> = {
 	lobbying: "Lobbying",
 	donation: "Spende",
 	employment: "Anstellung",
-};
-
-const CONFIDENCE_LABELS: Record<string, string> = {
-	verified: "Verifiziert",
-	declared: "Deklariert",
-	media_reported: "Medienberichte",
-	inferred: "Abgeleitet",
 };
 
 const ACTOR_TYPE_LABELS: Record<string, string> = {
@@ -105,9 +100,9 @@ function EdgeDetail({
 			)}
 			<div>
 				<p className="text-caption text-text-muted">Vertrauen</p>
-				<p className="text-body-sm text-text-primary">
-					{CONFIDENCE_LABELS[attrs.confidence] ?? attrs.confidence}
-				</p>
+				<div className="mt-1">
+					<ConfidenceBadge level={attrs.confidence as ConfidenceLevel} />
+				</div>
 			</div>
 			<div className="border-t border-border-subtle pt-3">
 				<p className="text-caption text-text-muted">Zwischen</p>
@@ -175,7 +170,10 @@ function NodeDetail({
 
 						return (
 							<div key={edgeId} className="rounded bg-surface-2 px-2.5 py-1.5">
-								<p className="text-body-sm text-text-primary">{otherLabel}</p>
+								<div className="flex items-center gap-1.5">
+									<ConfidenceBadge level={edgeAttrs.confidence as ConfidenceLevel} />
+									<p className="text-body-sm text-text-primary">{otherLabel}</p>
+								</div>
 								<p className="text-caption text-text-muted">
 									{CONNECTION_LABELS[edgeAttrs.connectionType] ?? edgeAttrs.connectionType}
 									{edgeAttrs.role ? ` — ${edgeAttrs.role}` : ""}

@@ -35,6 +35,7 @@ type VotingRecordProps = {
 export function VotingRecord({ voteRecords }: VotingRecordProps) {
 	const [sortField, setSortField] = useState("date");
 	const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+	const [expanded, setExpanded] = useState(false);
 
 	const handleSort = (field: string) => {
 		if (field === sortField) {
@@ -57,9 +58,37 @@ export function VotingRecord({ voteRecords }: VotingRecordProps) {
 		});
 	}, [voteRecords, sortField, sortDir]);
 
+	const yesCt = voteRecords.filter((r) => r.decision === "yes").length;
+	const noCt = voteRecords.filter((r) => r.decision === "no").length;
+	const abstainCt = voteRecords.filter((r) => r.decision === "abstain").length;
+	const absentCt = voteRecords.length - yesCt - noCt - abstainCt;
+	const total = voteRecords.length || 1;
+
+	const visible = expanded ? sorted : sorted.slice(0, 10);
+	const hasMore = sorted.length > 10;
+
 	return (
 		<div className="space-y-2">
 			<p className="text-sm text-text-secondary">{voteRecords.length} Abstimmungen</p>
+
+			{/* Summary bar */}
+			{voteRecords.length > 0 && (
+				<div className="space-y-1">
+					<div className="flex h-2 overflow-hidden rounded-full">
+						<div className="bg-green-600" style={{ width: `${(yesCt / total) * 100}%` }} />
+						<div className="bg-red-600" style={{ width: `${(noCt / total) * 100}%` }} />
+						<div className="bg-yellow-600" style={{ width: `${(abstainCt / total) * 100}%` }} />
+						<div className="bg-surface-3" style={{ width: `${(absentCt / total) * 100}%` }} />
+					</div>
+					<div className="flex gap-3 text-xs text-text-muted">
+						<span>{yesCt} Ja</span>
+						<span>{noCt} Nein</span>
+						<span>{abstainCt} Enthaltung</span>
+						<span>{absentCt} Abwesend</span>
+					</div>
+				</div>
+			)}
+
 			<Table>
 				<TableHeader>
 					<TableRow>
@@ -87,7 +116,7 @@ export function VotingRecord({ voteRecords }: VotingRecordProps) {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{sorted.map((record) => {
+					{visible.map((record) => {
 						const style = DECISION_STYLES[record.decision] ?? DECISION_STYLES.absent;
 						return (
 							<TableRow key={record.id}>
@@ -111,6 +140,15 @@ export function VotingRecord({ voteRecords }: VotingRecordProps) {
 					})}
 				</TableBody>
 			</Table>
+			{hasMore && (
+				<button
+					type="button"
+					onClick={() => setExpanded(!expanded)}
+					className="mt-2 text-sm text-text-secondary hover:text-text-primary"
+				>
+					{expanded ? "Weniger anzeigen" : `Alle ${sorted.length} anzeigen`}
+				</button>
+			)}
 		</div>
 	);
 }

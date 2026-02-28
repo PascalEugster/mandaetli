@@ -1,4 +1,4 @@
-import { parseAsArrayOf, parseAsString } from "nuqs";
+import { parseAsArrayOf, parseAsFloat, parseAsString } from "nuqs";
 
 export const graphSearchParams = {
 	selected: parseAsString,
@@ -10,4 +10,7 @@ export const graphSearchParams = {
 	pathFrom: parseAsString,
 	pathTo: parseAsString,
 	q: parseAsString,
+	cx: parseAsFloat,
+	cy: parseAsFloat,
+	cz: parseAsFloat,
 };

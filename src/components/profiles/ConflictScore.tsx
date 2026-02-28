@@ -12,12 +12,6 @@ type ConflictScoreProps = {
 	personName: string;
 };
 
-function scoreColor(value: number): string {
-	if (value < 20) return "text-green-400";
-	if (value < 50) return "text-yellow-400";
-	return "text-red-400";
-}
-
 const DECISION_LABELS: Record<string, string> = {
 	yes: "Ja",
 	no: "Nein",
@@ -31,10 +25,13 @@ export function ConflictScore({ score, personName }: ConflictScoreProps) {
 		<div className="space-y-4">
 			{/* Main score */}
 			<div>
-				<span className={`text-3xl font-bold ${scoreColor(score.score)}`}>{score.score}%</span>
-				<p className="mt-1 text-sm text-text-secondary">
+				<span className="text-3xl font-bold text-text-primary">{score.score}%</span>
+				<div className="mt-2 flex h-1 overflow-hidden rounded-full bg-surface-3">
+					<div className="h-full rounded-full bg-swiss-red" style={{ width: `${score.score}%` }} />
+				</div>
+				<p className="mt-2 text-sm text-text-secondary">
 					{score.overlappingVotes.length} von {score.totalVotes} Abstimmungen mit
-					Interessenuberschneidung
+					Interessenüberschneidung
 				</p>
 			</div>
 
@@ -89,7 +86,7 @@ export function ConflictScore({ score, personName }: ConflictScoreProps) {
 			{score.overlappingVotes.length > 0 && (
 				<Collapsible>
 					<CollapsibleTrigger className="flex items-center gap-1 text-sm text-text-secondary hover:text-text-primary">
-						Uberschneidende Abstimmungen ({score.overlappingVotes.length})
+						Überschneidende Abstimmungen ({score.overlappingVotes.length})
 						<ChevronDown className="size-4" />
 					</CollapsibleTrigger>
 					<CollapsibleContent className="mt-2 space-y-2">

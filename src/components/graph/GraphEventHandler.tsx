@@ -2,7 +2,7 @@
 
 import { useRegisterEvents, useSigma } from "@react-sigma/core";
 import { useQueryStates } from "nuqs";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { graphSearchParams } from "@/lib/graph/search-params";
 import { useGraphStore } from "@/stores/graph-store";
 
@@ -92,6 +92,41 @@ export function GraphEventHandler() {
 		searchState,
 		setSearchState,
 	]);
+
+	// Capture initial camera params from URL (read once, never reactive)
+	const initialCameraRef = useRef({
+		cx: searchState.cx,
+		cy: searchState.cy,
+		cz: searchState.cz,
+	});
+	// Sync camera state to URL params (debounced)
+	const cameraTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	useEffect(() => {
+		const camera = sigma.getCamera();
+		const { cx, cy, cz } = initialCameraRef.current;
+		// Restore camera from URL on mount
+		if (cx != null && cy != null && cz != null) {
+			camera.setState({ x: cx, y: cy, ratio: cz });
+		}
+
+		const handler = () => {
+			if (cameraTimerRef.current) clearTimeout(cameraTimerRef.current);
+			cameraTimerRef.current = setTimeout(() => {
+				const { x, y, ratio } = camera.getState();
+				setSearchState({
+					cx: Math.round(x * 1000) / 1000,
+					cy: Math.round(y * 1000) / 1000,
+					cz: Math.round(ratio * 1000) / 1000,
+				});
+			}, 500);
+		};
+
+		camera.on("updated", handler);
+		return () => {
+			camera.off("updated", handler);
+			if (cameraTimerRef.current) clearTimeout(cameraTimerRef.current);
+		};
+	}, [sigma, setSearchState]);
 
 	// Keyboard shortcuts
 	useEffect(() => {

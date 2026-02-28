@@ -1,5 +1,6 @@
 "use client";
 
+import { SourceTooltip } from "@/components/ui/source-tooltip";
 import type { Actor } from "@/types/domain";
 
 type PartyHeaderProps = {
@@ -48,7 +49,12 @@ export function PartyHeader({ party, memberCount }: PartyHeaderProps) {
 				{party.founded && <span>Gegr. {party.founded}</span>}
 			</div>
 
-			<p className="text-sm font-medium text-swiss-red">{memberCount} Mitglieder</p>
+			<p className="text-sm font-medium text-swiss-red">
+				<SourceTooltip source="parlament.ch" date="15.11.2025">
+					{memberCount}
+				</SourceTooltip>{" "}
+				Mitglieder
+			</p>
 		</div>
 	);
 }

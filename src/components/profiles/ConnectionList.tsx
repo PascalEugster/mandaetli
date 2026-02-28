@@ -36,6 +36,7 @@ function actorHref(actor: { slug: string; actor_type: string }) {
 export function ConnectionList({ connections }: ConnectionListProps) {
 	const [sortField, setSortField] = useState("name");
 	const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+	const [expanded, setExpanded] = useState(false);
 
 	const handleSort = (field: string) => {
 		if (field === sortField) {
@@ -58,78 +59,92 @@ export function ConnectionList({ connections }: ConnectionListProps) {
 		});
 	}, [connections, sortField, sortDir]);
 
+	const visible = expanded ? sorted : sorted.slice(0, 10);
+	const hasMore = sorted.length > 10;
+
 	return (
-		<Table>
-			<TableHeader>
-				<TableRow>
-					<TableHead>
-						<SortableHeader
-							label="Name"
-							field="name"
-							currentSort={sortField}
-							currentDir={sortDir}
-							onSort={handleSort}
-						/>
-					</TableHead>
-					<TableHead>
-						<SortableHeader
-							label="Typ"
-							field="connection_type"
-							currentSort={sortField}
-							currentDir={sortDir}
-							onSort={handleSort}
-						/>
-					</TableHead>
-					<TableHead>Rolle</TableHead>
-					<TableHead>Konfidenz</TableHead>
-					<TableHead>Bezahlt</TableHead>
-					<TableHead>Quelle</TableHead>
-				</TableRow>
-			</TableHeader>
-			<TableBody>
-				{sorted.map((conn) => (
-					<TableRow key={conn.id}>
-						<TableCell>
-							<Link
-								href={actorHref(conn.otherActor)}
-								className="text-text-primary hover:text-swiss-red hover:underline"
-							>
-								{conn.otherActor.name}
-							</Link>
-						</TableCell>
-						<TableCell className="text-text-secondary">
-							{connectionTypeLabel(conn.connection_type)}
-						</TableCell>
-						<TableCell className="text-text-secondary">{conn.role || "-"}</TableCell>
-						<TableCell>
-							<Badge variant="outline" className="gap-1.5">
-								<span
-									className="inline-block size-2 rounded-full"
-									style={{ backgroundColor: CONFIDENCE_COLORS[conn.confidence] }}
-								/>
-								{confidenceLabel(conn.confidence)}
-							</Badge>
-						</TableCell>
-						<TableCell className="text-text-secondary">
-							{conn.is_paid === true ? "Ja" : conn.is_paid === false ? "Nein" : "-"}
-						</TableCell>
-						<TableCell>
-							{conn.source_url ? (
-								<a
-									href={conn.source_url}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="text-text-muted hover:text-swiss-red"
-								>
-									<ExternalLink className="size-4" />
-								</a>
-							) : (
-								"-"
-							)}
-						</TableCell>
+		<div>
+			<Table>
+				<TableHeader>
+					<TableRow>
+						<TableHead>
+							<SortableHeader
+								label="Name"
+								field="name"
+								currentSort={sortField}
+								currentDir={sortDir}
+								onSort={handleSort}
+							/>
+						</TableHead>
+						<TableHead>
+							<SortableHeader
+								label="Typ"
+								field="connection_type"
+								currentSort={sortField}
+								currentDir={sortDir}
+								onSort={handleSort}
+							/>
+						</TableHead>
+						<TableHead>Rolle</TableHead>
+						<TableHead>Konfidenz</TableHead>
+						<TableHead>Bezahlt</TableHead>
+						<TableHead>Quelle</TableHead>
 					</TableRow>
-				))}
-			</TableBody>
-		</Table>
+				</TableHeader>
+				<TableBody>
+					{visible.map((conn) => (
+						<TableRow key={conn.id}>
+							<TableCell>
+								<Link
+									href={actorHref(conn.otherActor)}
+									className="text-text-primary hover:text-swiss-red hover:underline"
+								>
+									{conn.otherActor.name}
+								</Link>
+							</TableCell>
+							<TableCell className="text-text-secondary">
+								{connectionTypeLabel(conn.connection_type)}
+							</TableCell>
+							<TableCell className="text-text-secondary">{conn.role || "-"}</TableCell>
+							<TableCell>
+								<Badge variant="outline" className="gap-1.5">
+									<span
+										className="inline-block size-2 rounded-full"
+										style={{ backgroundColor: CONFIDENCE_COLORS[conn.confidence] }}
+									/>
+									{confidenceLabel(conn.confidence)}
+								</Badge>
+							</TableCell>
+							<TableCell className="text-text-secondary">
+								{conn.is_paid === true ? "Ja" : conn.is_paid === false ? "Nein" : "-"}
+							</TableCell>
+							<TableCell>
+								{conn.source_url ? (
+									<a
+										href={conn.source_url}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-text-muted hover:text-swiss-red"
+									>
+										<ExternalLink className="size-4" />
+									</a>
+								) : (
+									"-"
+								)}
+							</TableCell>
+						</TableRow>
+					))}
+				</TableBody>
+			</Table>
+			{hasMore && (
+				<button
+					type="button"
+					onClick={() => setExpanded(!expanded)}
+					className="mt-2 text-sm text-text-secondary hover:text-text-primary"
+				>
+					{expanded ? "Weniger anzeigen" : `Alle ${sorted.length} anzeigen`}
+				</button>
+			)}
+		</div>
 	);
 }
