@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation and Mock Data** - Database schema, realistic mock data for all Swiss political actors, and dark-mode design system
 - [x] **Phase 2: Network Graph Visualization** - Interactive WebGL force-directed graph with progressive disclosure and basic controls
 - [x] **Phase 3: Profiles and Search** - SSR politician/organization/party profile pages with global search and autocomplete
-- [ ] **Phase 4: Sharing, Filtering, and Polish** - Shareable URLs, advanced filtering, responsive design, and progressive disclosure across all views
+- [x] **Phase 4: Sharing, Filtering, and Polish** - Shareable URLs, advanced filtering, responsive design, and progressive disclosure across all views
 - [ ] **Phase 5: Watchlist and Alerts** - Email-based watchlist for tracking politicians and organizations with change notifications
 
 ## Phase Details
@@ -84,9 +84,9 @@ Plans:
 **Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 04-01: OG preview images, enhanced metadata, copy-link button with toast (Wave 1)
-- [ ] 04-02: Source tooltips, confidence badges, conflict score neutrality, progressive disclosure, graph camera URL state (Wave 1)
-- [ ] 04-03: Mobile-responsive profiles/lists, Connection Explorer graph alternative, search type tabs (Wave 2)
+- [x] 04-01: OG preview images, enhanced metadata, copy-link button with toast (Wave 1)
+- [x] 04-02: Source tooltips, confidence badges, conflict score neutrality, progressive disclosure, graph camera URL state (Wave 1)
+- [x] 04-03: Mobile-responsive profiles/lists, Connection Explorer graph alternative, search type tabs (Wave 2)
 
 ### Phase 5: Watchlist and Alerts
 **Goal**: Users can track politicians and organizations they care about and get notified when something changes, without needing an account
@@ -112,5 +112,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Foundation and Mock Data | 3/3 | Complete | 2026-02-27 |
 | 2. Network Graph Visualization | 3/3 | Complete | 2026-02-27 |
 | 3. Profiles and Search | 3/3 | Complete | 2026-02-27 |
-| 4. Sharing, Filtering, and Polish | 0/3 | In progress | - |
+| 4. Sharing, Filtering, and Polish | 3/3 | Complete | 2026-02-28 |
 | 5. Watchlist and Alerts | 0/1 | Not started | - |
