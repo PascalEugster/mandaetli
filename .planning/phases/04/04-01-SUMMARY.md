@@ -5,7 +5,7 @@
 ## What was built
 - Dynamic OG images for person, organization, party, and netzwerk routes using `next/og` ImageResponse
 - Enhanced `generateMetadata` on all profile pages with openGraph and twitter card properties
-- Root layout `metadataBase` set to `https://seilschaften.ch`
+- Root layout `metadataBase` set to `https://mandaetli.ch`
 - Toast component with global `toast()` function and auto-dismiss
 - CopyLinkButton component in TopBar using navigator.clipboard API
 

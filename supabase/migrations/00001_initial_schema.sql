@@ -1,4 +1,4 @@
--- Seilschaften.ch initial schema
+-- Mandaetli.ch initial schema
 -- ENUMs, tables, and indexes for Swiss political transparency data
 
 -- Enable required extensions

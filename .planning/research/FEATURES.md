@@ -25,7 +25,7 @@ Features users assume exist. Missing these = product feels incomplete. Derived f
 
 ### Differentiators (Competitive Advantage)
 
-Features that set Seilschaften.ch apart. Not expected (no existing Swiss platform does these), but high value.
+Features that set Mandaetli.ch apart. Not expected (no existing Swiss platform does these), but high value.
 
 | Feature | Value Proposition | Complexity | Notes |
 |---------|-------------------|------------|-------|
@@ -180,7 +180,7 @@ Features to defer until product-market fit is established.
 
 ## Competitor Feature Analysis
 
-| Feature | OpenSecrets (US) | LittleSis (US) | Lobbywatch.ch (CH) | TheyWorkForYou (UK) | Parltrack (EU) | Abgeordnetenwatch (DE) | Seilschaften.ch (planned) |
+| Feature | OpenSecrets (US) | LittleSis (US) | Lobbywatch.ch (CH) | TheyWorkForYou (UK) | Parltrack (EU) | Abgeordnetenwatch (DE) | Mandaetli.ch (planned) |
 |---------|-----------------|-----------------|---------------------|---------------------|----------------|----------------------|--------------------------|
 | Politician profiles | Yes, detailed | Yes, entity pages | Yes, with interests | Yes, with voting summary | Yes, MEP pages | Yes, with Q&A | Yes — core feature |
 | Organization profiles | Yes, by industry | Yes, entity pages | Partial (orgs in DB) | No | No | No | Yes — reverse lookup |
@@ -235,5 +235,5 @@ Features to defer until product-market fit is established.
 - [OECD AI in Civic Participation (2025)](https://www.oecd.org/en/publications/2025/06/governing-with-artificial-intelligence_398fa287/full-report/ai-in-civic-participation-and-open-government_51227ce7.html) — AI trends in civic tech
 
 ---
-*Feature research for: Swiss political transparency and lobbying disclosure platform (Seilschaften.ch)*
+*Feature research for: Swiss political transparency and lobbying disclosure platform (Mandaetli.ch)*
 *Researched: 2026-02-27*

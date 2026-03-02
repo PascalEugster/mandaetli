@@ -5,19 +5,19 @@ import type { GraphActor, GraphConnection, GraphParty } from "@/lib/graph/types"
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-	title: "Netzwerk - Seilschaften.ch",
+	title: "Netzwerk - Mandaetli.ch",
 	description:
 		"Interaktive Visualisierung der Verbindungen zwischen Schweizer Politiker:innen, Parteien und Organisationen.",
 	openGraph: {
-		title: "Netzwerk - Seilschaften.ch",
+		title: "Netzwerk - Mandaetli.ch",
 		description:
 			"Interaktive Visualisierung der Verbindungen zwischen Schweizer Politiker:innen, Parteien und Organisationen.",
 		type: "website",
-		siteName: "Seilschaften.ch",
+		siteName: "Mandaetli.ch",
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "Netzwerk - Seilschaften.ch",
+		title: "Netzwerk - Mandaetli.ch",
 	},
 };
 

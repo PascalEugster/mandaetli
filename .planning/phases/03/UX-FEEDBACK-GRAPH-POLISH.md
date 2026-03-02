@@ -52,7 +52,7 @@ Plus clarifications on existing Phase 2 decisions.
 - Step 4: Points at filter icon "Filter by party, canton, etc."
 
 Styling: surface-2 bg, border-default, 280px width, 8px CSS arrow
-Tracked via localStorage key: seilschaften:onboarding:graph:completed
+Tracked via localStorage key: mandaetli:onboarding:graph:completed
 Skippable, re-accessible via help menu, non-blocking, auto-dismiss after 10s
 
 ### Post-onboarding keyboard hint

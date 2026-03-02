@@ -198,5 +198,5 @@ npm install -D supabase  # CLI for type generation: supabase gen types
 - [Zustand vs Jotai comparison](https://www.reactlibraries.com/blog/zustand-vs-jotai-vs-valtio-performance-guide-2025) — State management selection rationale (MEDIUM confidence)
 
 ---
-*Stack research for: Seilschaften.ch — Swiss political transparency platform*
+*Stack research for: Mandaetli.ch — Swiss political transparency platform*
 *Researched: 2026-02-27*

@@ -4,7 +4,7 @@ import { WatchlistManager } from "@/components/watchlist/WatchlistManager";
 import { getWatchlistByToken } from "@/lib/data/watchlist";
 
 export const metadata: Metadata = {
-	title: "Beobachtungsliste - Seilschaften.ch",
+	title: "Beobachtungsliste - Mandaetli.ch",
 };
 
 type Props = {

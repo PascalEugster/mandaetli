@@ -257,5 +257,5 @@ Phase 1 (Schema Design) and Phase 3 (Performance Optimization). The schema must 
 - [UC Berkeley: Election Data Visualization as Persuasion](https://www.ischool.berkeley.edu/news/2024/study-shows-election-data-visualization-design-can-be-powerful-persuasion-tool) -- Bias risks in political data visualization (HIGH confidence)
 
 ---
-*Pitfalls research for: Seilschaften.ch -- Swiss political transparency platform*
+*Pitfalls research for: Mandaetli.ch -- Swiss political transparency platform*
 *Researched: 2026-02-27*

@@ -16,12 +16,12 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-	metadataBase: new URL("https://seilschaften.ch"),
-	title: "Seilschaften.ch",
+	metadataBase: new URL("https://mandaetli.ch"),
+	title: "Mandaetli.ch",
 	description:
 		"Visualisiere die Verbindungen zwischen Schweizer Politiker:innen, Parteien, Unternehmen und Lobbygruppen.",
 	openGraph: {
-		siteName: "Seilschaften.ch",
+		siteName: "Mandaetli.ch",
 		locale: "de_CH",
 		type: "website",
 	},

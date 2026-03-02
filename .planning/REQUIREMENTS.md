@@ -1,4 +1,4 @@
-# Requirements: Seilschaften.ch
+# Requirements: Mandaetli.ch
 
 **Defined:** 2026-02-27
 **Core Value:** Any Swiss citizen can find and understand the economic connections behind any National Council member in under 2 minutes — and share that finding via a link.

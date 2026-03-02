@@ -499,5 +499,5 @@ Phase 6: Advanced Features (depends on all above)
 - [Awesome OGD Switzerland](https://github.com/rnckp/awesome-ogd-switzerland) -- Swiss open data catalog (MEDIUM confidence)
 
 ---
-*Architecture research for: Seilschaften.ch -- Swiss political transparency platform*
+*Architecture research for: Mandaetli.ch -- Swiss political transparency platform*
 *Researched: 2026-02-27*

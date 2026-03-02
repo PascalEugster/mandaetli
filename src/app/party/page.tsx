@@ -5,7 +5,7 @@ import { listParties } from "@/lib/data/parties";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-	title: "Parteien - Seilschaften.ch",
+	title: "Parteien - Mandaetli.ch",
 };
 
 export default async function PartyListPage() {

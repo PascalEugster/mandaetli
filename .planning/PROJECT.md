@@ -1,4 +1,4 @@
-# Seilschaften.ch
+# Mandaetli.ch
 
 ## What This Is
 

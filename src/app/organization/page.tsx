@@ -13,7 +13,7 @@ import { listOrganizations } from "@/lib/data/organizations";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-	title: "Organisationen - Seilschaften.ch",
+	title: "Organisationen - Mandaetli.ch",
 };
 
 type Props = {

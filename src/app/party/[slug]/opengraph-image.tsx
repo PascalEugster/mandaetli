@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Seilschaften.ch - Partei Profil";
+export const alt = "Mandaetli.ch - Partei Profil";
 
 export default async function OGImage({ params }: { params: Promise<{ slug: string }> }) {
 	const { slug } = await params;
@@ -103,7 +103,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
 
 				{/* Site name */}
 				<div style={{ display: "flex", fontSize: 18, color: "#64748b", marginTop: 20 }}>
-					Seilschaften.ch
+					Mandaetli.ch
 				</div>
 			</div>
 		</div>,

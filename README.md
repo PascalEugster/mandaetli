@@ -1,8 +1,8 @@
-# Seilschaften.ch
+# Mandaetli.ch
 
 Swiss political transparency platform that visualizes connections between politicians, parties, companies, and lobby groups. Built to make political networks accessible and understandable for everyone.
 
-**Live:** [seilschaften.ch](https://seilschaften.ch)
+**Live:** [mandaetli.ch](https://mandaetli.ch)
 
 ## What it does
 

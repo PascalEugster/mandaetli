@@ -4,7 +4,7 @@ import type { SearchResult } from "@/lib/data/search";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-	title: "Suche - Seilschaften.ch",
+	title: "Suche - Mandaetli.ch",
 };
 
 type Props = {

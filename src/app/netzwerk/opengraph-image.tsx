@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Seilschaften.ch - Netzwerk der Schweizer Politik";
+export const alt = "Mandaetli.ch - Netzwerk der Schweizer Politik";
 
 export default function OGImage() {
 	return new ImageResponse(
@@ -30,7 +30,7 @@ export default function OGImage() {
 				}}
 			>
 				{/* Title */}
-				<div style={{ display: "flex", fontSize: 28, color: "#94a3b8" }}>Seilschaften.ch</div>
+				<div style={{ display: "flex", fontSize: 28, color: "#94a3b8" }}>Mandaetli.ch</div>
 
 				<div style={{ display: "flex", fontSize: 52, fontWeight: 700, color: "#ffffff" }}>
 					Netzwerk der Schweizer Politik

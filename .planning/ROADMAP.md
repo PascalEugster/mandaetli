@@ -1,8 +1,8 @@
-# Roadmap: Seilschaften.ch
+# Roadmap: Mandaetli.ch
 
 ## Overview
 
-Seilschaften.ch delivers a public transparency platform that visualizes connections between Swiss politicians and economic interests. The build follows a mock-data-first strategy: Phase 1 establishes the full data foundation and design system with realistic mock data, Phase 2 builds the interactive network graph (the primary differentiator), Phase 3 adds profile pages and search (the SEO and shareability backbone), Phase 4 completes the experience with filtering, sharing, and responsive polish, and Phase 5 adds the watchlist/alerts retention feature. Real API integration is deferred to post-v1 -- the entire v1 ships on mock data to decouple UI development from external API timelines.
+Mandaetli.ch delivers a public transparency platform that visualizes connections between Swiss politicians and economic interests. The build follows a mock-data-first strategy: Phase 1 establishes the full data foundation and design system with realistic mock data, Phase 2 builds the interactive network graph (the primary differentiator), Phase 3 adds profile pages and search (the SEO and shareability backbone), Phase 4 completes the experience with filtering, sharing, and responsive polish, and Phase 5 adds the watchlist/alerts retention feature. Real API integration is deferred to post-v1 -- the entire v1 ships on mock data to decouple UI development from external API timelines.
 
 ## Phases
 

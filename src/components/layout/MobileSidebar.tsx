@@ -34,7 +34,7 @@ export function MobileSidebar({
 			<SheetContent side="left" className="w-64 bg-surface-0 p-0">
 				<SheetHeader className="border-b border-border-subtle px-4 py-4">
 					<SheetTitle className="text-lg font-bold tracking-tight">
-						<span className="text-text-primary">Seilschaften</span>
+						<span className="text-text-primary">Mandaetli</span>
 						<span className="text-swiss-red">.ch</span>
 					</SheetTitle>
 				</SheetHeader>

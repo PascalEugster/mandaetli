@@ -66,7 +66,7 @@ export default async function Home() {
 				<div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(255,0,0,0.06)_0%,_transparent_60%)]" />
 				<div className="relative">
 					<h1 className="mb-3 text-display font-bold tracking-[-0.02em]">
-						<span className="text-text-primary">Seilschaften</span>
+						<span className="text-text-primary">Mandaetli</span>
 						<span className="text-swiss-red">.ch</span>
 					</h1>
 					<p className="max-w-xl text-text-secondary">

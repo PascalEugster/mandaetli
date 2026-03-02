@@ -1,13 +1,13 @@
 # Project Research Summary
 
-**Project:** Seilschaften.ch — Swiss Political Transparency Platform
+**Project:** Mandaetli.ch — Swiss Political Transparency Platform
 **Domain:** Political transparency / lobbying disclosure platform with interactive network graph visualization
 **Researched:** 2026-02-27
 **Confidence:** HIGH (stack, architecture) / MEDIUM (features, pitfalls)
 
 ## Executive Summary
 
-Seilschaften.ch is a Swiss political transparency platform that cross-references multiple official registers (parlament.ch, Zefix, Lobbyregister, Eidg. Kanzlei) to expose the economic connections of Swiss federal politicians via an interactive network graph. The technical and product patterns for this type of platform are well-established: server-rendered profile pages for SEO, WebGL-based client-side graph rendering for performance, and a PostgreSQL adjacency model for graph data storage at this scale (~10K nodes/edges). The central differentiator is the interactive network graph combined with cross-register data fusion — neither exists in the Swiss civic tech landscape today.
+Mandaetli.ch is a Swiss political transparency platform that cross-references multiple official registers (parlament.ch, Zefix, Lobbyregister, Eidg. Kanzlei) to expose the economic connections of Swiss federal politicians via an interactive network graph. The technical and product patterns for this type of platform are well-established: server-rendered profile pages for SEO, WebGL-based client-side graph rendering for performance, and a PostgreSQL adjacency model for graph data storage at this scale (~10K nodes/edges). The central differentiator is the interactive network graph combined with cross-register data fusion — neither exists in the Swiss civic tech landscape today.
 
 The recommended approach is mock-first development: build the complete UI — graph visualization, profile pages, search, filtering — against realistic mock data seeded into a local Supabase instance, then layer in real data pipelines one source at a time. This decouples frontend development from the unpredictable timelines of external API integration. The technology choices are clear: Next.js 16 + React 19, Sigma.js (WebGL) + Graphology for graph rendering, Supabase for the full backend-as-a-service stack. These are well-documented, mutually compatible, and proven at this scale.
 

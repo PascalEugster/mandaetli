@@ -19,7 +19,7 @@ export function TopBar({ onMenuToggle }: { onMenuToggle?: () => void }) {
 					</button>
 					<Link href="/" className="flex items-center">
 						<span className="text-lg font-bold tracking-tight">
-							<span className="text-text-primary">Seilschaften</span>
+							<span className="text-text-primary">Mandaetli</span>
 							<span className="text-swiss-red">.ch</span>
 						</span>
 					</Link>

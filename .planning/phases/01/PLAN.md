@@ -70,7 +70,7 @@
    - Navigation component
 
 10. **Create Navigation component** (`src/components/layout/Navigation.tsx`)
-    - Top bar: Logo "Seilschaften.ch" with Swiss red accent
+    - Top bar: Logo "Mandaetli.ch" with Swiss red accent
     - Nav links: Netzwerk, Personen, Organisationen, Parteien (placeholder links)
     - Search placeholder
     - Sticky, compact

@@ -16,8 +16,8 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { slug } = await params;
 	const party = await getPartyBySlug(slug);
-	if (!party) return { title: "Nicht gefunden - Seilschaften.ch" };
-	const title = `${party.abbreviation ?? party.name} (${party.name}) - Seilschaften.ch`;
+	if (!party) return { title: "Nicht gefunden - Mandaetli.ch" };
+	const title = `${party.abbreviation ?? party.name} (${party.name}) - Mandaetli.ch`;
 	const description = `${party.name} — Mitglieder, Branchenverbindungen und politisches Netzwerk`;
 	return {
 		title,
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 			title,
 			description,
 			type: "website",
-			siteName: "Seilschaften.ch",
+			siteName: "Mandaetli.ch",
 		},
 		twitter: {
 			card: "summary_large_image",

@@ -24,24 +24,24 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { slug } = await params;
 	const person = await getPersonBySlug(slug);
-	if (!person) return { title: "Nicht gefunden - Seilschaften.ch" };
+	if (!person) return { title: "Nicht gefunden - Mandaetli.ch" };
 	const name =
 		person.first_name && person.last_name
 			? `${person.first_name} ${person.last_name}`
 			: person.name;
 	const description = `${name} — Interessenbindungen und politisches Netzwerk`;
 	return {
-		title: `${name} - Seilschaften.ch`,
+		title: `${name} - Mandaetli.ch`,
 		description,
 		openGraph: {
-			title: `${name} - Seilschaften.ch`,
+			title: `${name} - Mandaetli.ch`,
 			description,
 			type: "profile",
-			siteName: "Seilschaften.ch",
+			siteName: "Mandaetli.ch",
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: `${name} - Seilschaften.ch`,
+			title: `${name} - Mandaetli.ch`,
 			description,
 		},
 	};

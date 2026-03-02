@@ -15,7 +15,7 @@ import { createClient } from "@/lib/supabase/server";
 import { cantonName, formatCouncil } from "@/lib/utils/formatters";
 
 export const metadata: Metadata = {
-	title: "Politiker:innen - Seilschaften.ch",
+	title: "Politiker:innen - Mandaetli.ch",
 };
 
 type Props = {
