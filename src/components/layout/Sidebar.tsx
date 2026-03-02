@@ -1,14 +1,6 @@
 "use client";
 
-import {
-	BookOpen,
-	Building2,
-	ChevronLeft,
-	Flag,
-	LayoutDashboard,
-	Network,
-	Users,
-} from "lucide-react";
+import { Building2, ChevronLeft, Flag, LayoutDashboard, Network, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -25,7 +17,6 @@ const NAV_ITEMS: NavItem[] = [
 	{ href: "/person", label: "Politiker:innen", icon: Users },
 	{ href: "/organization", label: "Organisationen", icon: Building2 },
 	{ href: "/party", label: "Parteien", icon: Flag },
-	{ href: "/sources", label: "Quellen & Methodik", icon: BookOpen },
 ];
 
 export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {

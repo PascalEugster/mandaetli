@@ -35,14 +35,6 @@ export function TopBar({ onMenuToggle }: { onMenuToggle?: () => void }) {
 						<Database size={14} strokeWidth={1.5} />
 						<span className="hidden text-caption sm:inline">5 Quellen</span>
 					</div>
-
-					{/* About link */}
-					<Link
-						href="/about"
-						className="text-body-sm text-text-tertiary transition-colors hover:text-text-primary"
-					>
-						About
-					</Link>
 				</div>
 			</div>
 		</header>

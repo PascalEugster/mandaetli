@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Building2, Flag, LayoutDashboard, Network, Users } from "lucide-react";
+import { Building2, Flag, LayoutDashboard, Network, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -15,10 +15,9 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
 	{ href: "/", label: "Dashboard", icon: LayoutDashboard },
 	{ href: "/netzwerk", label: "Netzwerk", icon: Network },
-	{ href: "/person", label: "Politiker:innen", icon: Users, disabled: true },
-	{ href: "/organization", label: "Organisationen", icon: Building2, disabled: true },
-	{ href: "/party", label: "Parteien", icon: Flag, disabled: true },
-	{ href: "/sources", label: "Quellen & Methodik", icon: BookOpen },
+	{ href: "/person", label: "Politiker:innen", icon: Users },
+	{ href: "/organization", label: "Organisationen", icon: Building2 },
+	{ href: "/party", label: "Parteien", icon: Flag },
 ];
 
 export function MobileSidebar({

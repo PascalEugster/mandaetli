@@ -18,11 +18,15 @@ type GraphStore = {
 	// Layout state
 	isLayoutRunning: boolean;
 
+	// Graph data version -- incremented when graph data is loaded to trigger recomputation
+	graphVersion: number;
+
 	// Actions
 	setHoveredNode: (nodeId: string | null, position?: TooltipPosition) => void;
 	setHoveredEdge: (edgeId: string | null) => void;
 	setSelectedEdge: (edgeId: string | null) => void;
 	setLayoutRunning: (running: boolean) => void;
+	incrementGraphVersion: () => void;
 	clearAll: () => void;
 };
 
@@ -33,6 +37,7 @@ export const useGraphStore = create<GraphStore>((set) => ({
 	hoverTimestamp: 0,
 	selectedEdgeId: null,
 	isLayoutRunning: false,
+	graphVersion: 0,
 
 	setHoveredNode: (nodeId, position) =>
 		set({
@@ -46,6 +51,8 @@ export const useGraphStore = create<GraphStore>((set) => ({
 	setSelectedEdge: (edgeId) => set({ selectedEdgeId: edgeId }),
 
 	setLayoutRunning: (running) => set({ isLayoutRunning: running }),
+
+	incrementGraphVersion: () => set((s) => ({ graphVersion: s.graphVersion + 1 })),
 
 	clearAll: () =>
 		set({

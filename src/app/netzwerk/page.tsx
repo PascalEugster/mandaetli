@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ConnectionExplorer } from "@/components/graph/ConnectionExplorer";
-import { GraphContainer } from "@/components/graph/GraphContainer";
+import { GraphContainerWrapper } from "@/components/graph/GraphContainerWrapper";
 import type { GraphActor, GraphConnection, GraphParty } from "@/lib/graph/types";
 import { createClient } from "@/lib/supabase/server";
 
@@ -43,10 +43,8 @@ export default async function NetzwerkPage() {
 
 	return (
 		<div className="h-full w-full bg-base">
-			{/* Desktop: full graph */}
-			<div className="hidden h-full w-full md:block">
-				<GraphContainer actors={actors} connections={connections} parties={parties} />
-			</div>
+			{/* Desktop: full graph (conditionally mounted to avoid Sigma zero-width error) */}
+			<GraphContainerWrapper actors={actors} connections={connections} parties={parties} />
 			{/* Mobile: card-based explorer */}
 			<div className="block md:hidden">
 				<ConnectionExplorer actors={actors} connections={connections} parties={parties} />

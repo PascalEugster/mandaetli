@@ -11,8 +11,13 @@ export async function createClient() {
 				return cookieStore.getAll();
 			},
 			setAll(cookiesToSet) {
-				for (const { name, value, options } of cookiesToSet) {
-					cookieStore.set(name, value, options);
+				try {
+					for (const { name, value, options } of cookiesToSet) {
+						cookieStore.set(name, value, options);
+					}
+				} catch {
+					// setAll is called from Server Components where cookies cannot be set.
+					// This can be safely ignored when called from a read-only context.
 				}
 			},
 		},

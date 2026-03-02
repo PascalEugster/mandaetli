@@ -11,11 +11,11 @@ const NODE_TYPES = [
 ];
 
 const EDGE_TYPES = [
-	{ label: "Mandat", color: "#475569" },
-	{ label: "Mitgliedschaft", color: "#334155" },
-	{ label: "Lobbying", color: "#475569" },
-	{ label: "Spende", color: "#f59e0b" },
-	{ label: "Anstellung", color: "#334155" },
+	{ label: "Mandat", color: "#60a5fa" },
+	{ label: "Mitgliedschaft", color: "#818cf8" },
+	{ label: "Lobbying", color: "#f97316" },
+	{ label: "Spende", color: "#fbbf24" },
+	{ label: "Anstellung", color: "#34d399" },
 ];
 
 const CONFIDENCE_TYPES = [

@@ -16,6 +16,15 @@ export function GraphEventHandler() {
 		shallow: true,
 	});
 
+	// Use refs for values accessed inside event callbacks to avoid re-render loops
+	const searchStateRef = useRef(searchState);
+	searchStateRef.current = searchState;
+
+	const setSearchStateRef = useRef(setSearchState);
+	setSearchStateRef.current = setSearchState;
+
+	// Register sigma events once on mount — deps use refs intentionally to avoid re-render loop
+	// biome-ignore lint/correctness/useExhaustiveDependencies: event callbacks read from refs to break the re-render cycle
 	useEffect(() => {
 		registerEvents({
 			enterNode: ({ node }) => {
@@ -26,7 +35,6 @@ export function GraphEventHandler() {
 				} else {
 					setHoveredNode(node);
 				}
-				// Change cursor
 				const container = sigma.getContainer();
 				container.style.cursor = "pointer";
 			},
@@ -42,15 +50,15 @@ export function GraphEventHandler() {
 				const slug = graph.getNodeAttribute(node, "slug") as string | undefined;
 				if (!slug) return;
 
-				if (searchState.selected && searchState.selected !== slug) {
-					// Two-node selection: path-finding mode
-					setSearchState({
-						pathFrom: searchState.selected,
+				const current = searchStateRef.current;
+				if (current.selected && current.selected !== slug) {
+					setSearchStateRef.current({
+						pathFrom: current.selected,
 						pathTo: slug,
 						selected: null,
 					});
 				} else {
-					setSearchState({
+					setSearchStateRef.current({
 						selected: slug,
 						pathFrom: null,
 						pathTo: null,
@@ -75,7 +83,7 @@ export function GraphEventHandler() {
 			},
 
 			clickStage: () => {
-				setSearchState({
+				setSearchStateRef.current({
 					selected: null,
 					pathFrom: null,
 					pathTo: null,
@@ -83,15 +91,8 @@ export function GraphEventHandler() {
 				setSelectedEdge(null);
 			},
 		});
-	}, [
-		registerEvents,
-		sigma,
-		setHoveredNode,
-		setHoveredEdge,
-		setSelectedEdge,
-		searchState,
-		setSearchState,
-	]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [sigma]);
 
 	// Capture initial camera params from URL (read once, never reactive)
 	const initialCameraRef = useRef({
@@ -113,7 +114,7 @@ export function GraphEventHandler() {
 			if (cameraTimerRef.current) clearTimeout(cameraTimerRef.current);
 			cameraTimerRef.current = setTimeout(() => {
 				const { x, y, ratio } = camera.getState();
-				setSearchState({
+				setSearchStateRef.current({
 					cx: Math.round(x * 1000) / 1000,
 					cy: Math.round(y * 1000) / 1000,
 					cz: Math.round(ratio * 1000) / 1000,
@@ -126,19 +127,18 @@ export function GraphEventHandler() {
 			camera.off("updated", handler);
 			if (cameraTimerRef.current) clearTimeout(cameraTimerRef.current);
 		};
-	}, [sigma, setSearchState]);
+	}, [sigma]);
 
 	// Keyboard shortcuts
 	useEffect(() => {
 		function handleKeyDown(e: KeyboardEvent) {
-			// Ignore shortcuts when typing in an input
 			const target = e.target as HTMLElement;
 			if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") return;
 
 			if (e.key === "Escape") {
-				// Cascade: clear selection -> clear path -> clear edge
-				if (searchState.selected || searchState.pathFrom || searchState.pathTo) {
-					setSearchState({ selected: null, pathFrom: null, pathTo: null });
+				const current = searchStateRef.current;
+				if (current.selected || current.pathFrom || current.pathTo) {
+					setSearchStateRef.current({ selected: null, pathFrom: null, pathTo: null });
 				}
 				setSelectedEdge(null);
 			}
@@ -150,7 +150,7 @@ export function GraphEventHandler() {
 
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [sigma, searchState, setSearchState, setSelectedEdge]);
+	}, [sigma, setSelectedEdge]);
 
 	return null;
 }

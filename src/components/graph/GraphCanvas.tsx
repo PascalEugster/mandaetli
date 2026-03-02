@@ -5,6 +5,7 @@ import FA2LayoutSupervisor from "graphology-layout-forceatlas2/worker";
 import { useEffect, useRef } from "react";
 import { buildGraph } from "@/lib/graph/buildGraph";
 import type { GraphActor, GraphConnection, GraphParty } from "@/lib/graph/types";
+import { useGraphStore } from "@/stores/graph-store";
 
 const FA2_SETTINGS = {
 	barnesHutOptimize: true,
@@ -29,10 +30,12 @@ type GraphCanvasProps = {
 export function GraphCanvas({ actors, connections, parties }: GraphCanvasProps) {
 	const loadGraph = useLoadGraph();
 	const supervisorRef = useRef<FA2LayoutSupervisor | null>(null);
+	const incrementGraphVersion = useGraphStore((s) => s.incrementGraphVersion);
 
 	useEffect(() => {
 		const graph = buildGraph(actors, connections, parties);
 		loadGraph(graph);
+		incrementGraphVersion();
 
 		// Start ForceAtlas2 layout in a Web Worker
 		const supervisor = new FA2LayoutSupervisor(graph, {
@@ -51,7 +54,7 @@ export function GraphCanvas({ actors, connections, parties }: GraphCanvasProps) 
 			supervisor.kill();
 			supervisorRef.current = null;
 		};
-	}, [actors, connections, parties, loadGraph]);
+	}, [actors, connections, parties, loadGraph, incrementGraphVersion]);
 
 	return null;
 }

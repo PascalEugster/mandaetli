@@ -7,6 +7,8 @@ export const graphSearchParams = {
 	councils: parseAsArrayOf(parseAsString, ","),
 	industries: parseAsArrayOf(parseAsString, ","),
 	connectionTypes: parseAsArrayOf(parseAsString, ","),
+	actorTypes: parseAsArrayOf(parseAsString, ","),
+	confidence: parseAsArrayOf(parseAsString, ","),
 	pathFrom: parseAsString,
 	pathTo: parseAsString,
 	q: parseAsString,

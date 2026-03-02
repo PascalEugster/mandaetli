@@ -30,23 +30,36 @@ export function GraphReducers() {
 	const sigma = useSigma();
 	const setSettings = useSetSettings();
 	const hoveredNodeId = useGraphStore((s) => s.hoveredNodeId);
+	const graphVersion = useGraphStore((s) => s.graphVersion);
 	const [searchState] = useQueryStates(graphSearchParams, { shallow: true });
 
-	const { selected, pathFrom, pathTo, parties, cantons, councils, industries } = searchState;
+	const {
+		selected,
+		pathFrom,
+		pathTo,
+		parties,
+		cantons,
+		councils,
+		industries,
+		connectionTypes,
+		actorTypes,
+		confidence,
+	} = searchState;
 
 	const filters: FilterState = useMemo(
-		() => ({ parties, cantons, councils, industries, connectionTypes: null }),
-		[parties, cantons, councils, industries],
+		() => ({ parties, cantons, councils, industries, connectionTypes, actorTypes, confidence }),
+		[parties, cantons, councils, industries, connectionTypes, actorTypes, confidence],
 	);
 
 	const viewLevel = useMemo(() => deriveViewLevel(filters, selected), [filters, selected]);
 
-	// Compute visible nodes and path info
+	// Compute visible nodes and path info (graphVersion triggers recompute after data loads)
+	// biome-ignore lint/correctness/useExhaustiveDependencies: graphVersion intentionally triggers recompute when graph data loads
 	const visibleNodes = useMemo(() => {
 		const graph = sigma.getGraph();
 		if (graph.order === 0) return new Set<string>();
 		return computeVisibleNodes(graph, filters, selected);
-	}, [sigma, filters, selected]);
+	}, [sigma, filters, selected, graphVersion]);
 
 	const pathInfo = useMemo(() => {
 		if (!pathFrom || !pathTo) return null;
@@ -157,6 +170,24 @@ export function GraphReducers() {
 					}
 				}
 
+				// Hide edges that don't match connection type filter
+				if (connectionTypes?.length) {
+					const edgeType = graph.getEdgeAttribute(edge, "connectionType") as string;
+					if (!connectionTypes.includes(edgeType)) {
+						res.hidden = true;
+						return res;
+					}
+				}
+
+				// Hide edges that don't match confidence filter
+				if (confidence?.length) {
+					const edgeConf = graph.getEdgeAttribute(edge, "confidence") as string;
+					if (!confidence.includes(edgeConf)) {
+						res.hidden = true;
+						return res;
+					}
+				}
+
 				// Hover: dim non-connected edges to 5% opacity
 				if (hoveredNeighbors) {
 					if (!hoveredNeighbors.has(source) || !hoveredNeighbors.has(target)) {
@@ -176,6 +207,8 @@ export function GraphReducers() {
 		pathInfo,
 		viewLevel,
 		selected,
+		connectionTypes,
+		confidence,
 	]);
 
 	return null;

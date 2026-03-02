@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 
 export type IndustryPartyMatrix = {
 	industries: string[];
@@ -61,7 +61,7 @@ export function IndustryHeatmap({ data }: IndustryHeatmapProps) {
 
 				{/* Data rows */}
 				{data.industries.map((industry, rowIdx) => (
-					<>
+					<Fragment key={industry}>
 						<div key={`label-${industry}`} className="flex items-center p-2 text-text-secondary">
 							{capitalize(industry)}
 						</div>
@@ -81,7 +81,7 @@ export function IndustryHeatmap({ data }: IndustryHeatmapProps) {
 								</div>
 							);
 						})}
-					</>
+					</Fragment>
 				))}
 			</div>
 		</div>

@@ -1,31 +1,66 @@
 "use client";
 
 import { useSigma } from "@react-sigma/core";
-import { X } from "lucide-react";
+import { Building2, ChevronDown, Flag, User, X } from "lucide-react";
 import { useQueryStates } from "nuqs";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { graphSearchParams } from "@/lib/graph/search-params";
+import { useGraphStore } from "@/stores/graph-store";
+
+type FilterKey =
+	| "parties"
+	| "cantons"
+	| "councils"
+	| "industries"
+	| "connectionTypes"
+	| "actorTypes"
+	| "confidence";
 
 const COUNCIL_OPTIONS = [
 	{ value: "NR", label: "Nationalrat" },
 	{ value: "SR", label: "Standerat" },
 ];
 
-const CONNECTION_LABELS: Record<string, string> = {
-	mandate: "Mandat",
-	membership: "Mitgliedschaft",
-	lobbying: "Lobbying",
-	donation: "Spende",
-	employment: "Anstellung",
+const CONNECTION_TYPE_CONFIG: { value: string; label: string; color: string }[] = [
+	{ value: "mandate", label: "Mandat", color: "#60a5fa" },
+	{ value: "membership", label: "Mitgliedschaft", color: "#818cf8" },
+	{ value: "lobbying", label: "Lobbying", color: "#f97316" },
+	{ value: "donation", label: "Spende", color: "#fbbf24" },
+	{ value: "employment", label: "Anstellung", color: "#34d399" },
+];
+
+const ACTOR_TYPE_CONFIG: { value: string; label: string; color: string; icon: typeof User }[] = [
+	{ value: "person", label: "Politiker:in", color: "#3b82f6", icon: User },
+	{ value: "organization", label: "Organisation", color: "#22c55e", icon: Building2 },
+	{ value: "party", label: "Partei", color: "#a855f7", icon: Flag },
+];
+
+const CONFIDENCE_CONFIG: { value: string; label: string; color: string }[] = [
+	{ value: "verified", label: "Verifiziert", color: "#22c55e" },
+	{ value: "declared", label: "Deklariert", color: "#3b82f6" },
+	{ value: "media_reported", label: "Medienberichte", color: "#f59e0b" },
+	{ value: "inferred", label: "Abgeleitet", color: "#64748b" },
+];
+
+const FILTER_LABELS: Record<FilterKey, string> = {
+	parties: "Partei",
+	cantons: "Kanton",
+	councils: "Rat",
+	industries: "Branche",
+	connectionTypes: "Verbindung",
+	actorTypes: "Akteurtyp",
+	confidence: "Vertrauen",
 };
 
 export function GraphControls({ open, onClose }: { open: boolean; onClose: () => void }) {
 	const sigma = useSigma();
+	const graphVersion = useGraphStore((s) => s.graphVersion);
 	const [searchState, setSearchState] = useQueryStates(graphSearchParams, {
 		shallow: true,
 	});
 
-	// Extract unique values from graph
+	// Extract unique values from graph (graphVersion triggers recompute after data loads)
+	// biome-ignore lint/correctness/useExhaustiveDependencies: graphVersion intentionally triggers recompute when graph data loads
 	const graphData = useMemo(() => {
 		const graph = sigma.getGraph();
 		const partyMap = new Map<string, { name: string; color: string; count: number }>();
@@ -65,10 +100,10 @@ export function GraphControls({ open, onClose }: { open: boolean; onClose: () =>
 			cantons: [...cantons].sort(),
 			industries: [...industries].sort(),
 		};
-	}, [sigma]);
+	}, [sigma, graphVersion]);
 
-	function toggleArrayParam(key: "parties" | "cantons" | "councils" | "industries", value: string) {
-		const current = searchState[key] ?? [];
+	function toggleArrayParam(key: FilterKey, value: string) {
+		const current = (searchState[key] as string[] | null) ?? [];
 		const next = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
 		setSearchState({ [key]: next.length > 0 ? next : null });
 	}
@@ -80,10 +115,43 @@ export function GraphControls({ open, onClose }: { open: boolean; onClose: () =>
 			councils: null,
 			industries: null,
 			connectionTypes: null,
+			actorTypes: null,
+			confidence: null,
 			selected: null,
 			pathFrom: null,
 			pathTo: null,
 		});
+	}
+
+	// Collect active filter chips
+	const activeChips: { key: FilterKey; value: string; label: string }[] = [];
+	for (const key of [
+		"parties",
+		"cantons",
+		"councils",
+		"industries",
+		"connectionTypes",
+		"actorTypes",
+		"confidence",
+	] as FilterKey[]) {
+		const values = searchState[key] as string[] | null;
+		if (values?.length) {
+			for (const v of values) {
+				let label = v;
+				if (key === "parties") {
+					label = graphData.parties.find((p) => p.id === v)?.name ?? v;
+				} else if (key === "connectionTypes") {
+					label = CONNECTION_TYPE_CONFIG.find((c) => c.value === v)?.label ?? v;
+				} else if (key === "actorTypes") {
+					label = ACTOR_TYPE_CONFIG.find((a) => a.value === v)?.label ?? v;
+				} else if (key === "confidence") {
+					label = CONFIDENCE_CONFIG.find((c) => c.value === v)?.label ?? v;
+				} else if (key === "councils") {
+					label = COUNCIL_OPTIONS.find((c) => c.value === v)?.label ?? v;
+				}
+				activeChips.push({ key, value: v, label });
+			}
+		}
 	}
 
 	if (!open) return null;
@@ -92,12 +160,22 @@ export function GraphControls({ open, onClose }: { open: boolean; onClose: () =>
 	const activeCantons = searchState.cantons ?? [];
 	const activeCouncils = searchState.councils ?? [];
 	const activeIndustries = searchState.industries ?? [];
+	const activeConnectionTypes = searchState.connectionTypes ?? [];
+	const activeActorTypes = searchState.actorTypes ?? [];
+	const activeConfidence = searchState.confidence ?? [];
 
 	return (
-		<div className="absolute left-4 top-4 z-40 flex h-[calc(100%-2rem)] w-72 flex-col rounded-lg border border-border-subtle bg-surface-1 shadow-lg">
+		<div className="absolute left-4 top-4 z-40 flex h-[calc(100%-2rem)] w-80 flex-col rounded-lg border border-border-subtle bg-surface-1 shadow-lg">
 			{/* Header */}
 			<div className="flex items-center justify-between border-b border-border-subtle px-4 py-3">
-				<h3 className="text-body-sm font-semibold text-text-primary">Filter</h3>
+				<div className="flex items-center gap-2">
+					<h3 className="text-body-sm font-semibold text-text-primary">Filter</h3>
+					{activeChips.length > 0 && (
+						<span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-swiss-red px-1.5 text-[10px] font-medium text-white">
+							{activeChips.length}
+						</span>
+					)}
+				</div>
 				<button
 					type="button"
 					onClick={onClose}
@@ -107,27 +185,131 @@ export function GraphControls({ open, onClose }: { open: boolean; onClose: () =>
 				</button>
 			</div>
 
-			{/* Scrollable content */}
-			<div className="flex-1 overflow-y-auto px-4 py-3">
-				{/* Parteien */}
-				<FilterSection title="Parteien">
-					{graphData.parties.map((party) => (
-						<label key={party.id} className="flex cursor-pointer items-center gap-2 py-1">
-							<input
-								type="checkbox"
-								checked={activeParties.includes(party.id)}
-								onChange={() => toggleArrayParam("parties", party.id)}
-								className="rounded border-border-subtle"
-							/>
-							<span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: party.color }} />
-							<span className="flex-1 text-body-sm text-text-secondary">{party.name}</span>
-							<span className="text-caption text-text-muted">{party.count}</span>
-						</label>
+			{/* Active filter chips */}
+			{activeChips.length > 0 && (
+				<div className="flex flex-wrap gap-1.5 border-b border-border-subtle px-4 py-2.5">
+					{activeChips.map((chip) => (
+						<button
+							key={`${chip.key}-${chip.value}`}
+							type="button"
+							onClick={() => toggleArrayParam(chip.key, chip.value)}
+							className="flex items-center gap-1 rounded-full bg-surface-3 px-2.5 py-1 text-[11px] text-text-secondary transition-colors hover:bg-surface-2"
+						>
+							<span className="text-text-muted">{FILTER_LABELS[chip.key]}:</span>
+							<span>{chip.label}</span>
+							<X size={10} strokeWidth={2} className="ml-0.5 text-text-muted" />
+						</button>
 					))}
-				</FilterSection>
+				</div>
+			)}
+
+			{/* Scrollable content */}
+			<div className="flex-1 overflow-y-auto">
+				{/* Akteurtyp */}
+				<CollapsibleSection title="Akteurtyp" count={activeActorTypes.length} defaultOpen>
+					<div className="flex flex-col gap-1">
+						{ACTOR_TYPE_CONFIG.map((at) => {
+							const Icon = at.icon;
+							const isActive = activeActorTypes.includes(at.value);
+							return (
+								<button
+									key={at.value}
+									type="button"
+									onClick={() => toggleArrayParam("actorTypes", at.value)}
+									className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-body-sm transition-colors ${
+										isActive
+											? "bg-surface-3 text-text-primary"
+											: "text-text-secondary hover:bg-surface-2"
+									}`}
+								>
+									<Icon size={14} strokeWidth={1.5} style={{ color: at.color }} />
+									<span className="flex-1 text-left">{at.label}</span>
+									{isActive && <span className="h-1.5 w-1.5 rounded-full bg-swiss-red" />}
+								</button>
+							);
+						})}
+					</div>
+				</CollapsibleSection>
+
+				{/* Parteien */}
+				<CollapsibleSection title="Parteien" count={activeParties.length} defaultOpen>
+					{graphData.parties.map((party) => {
+						const isActive = activeParties.includes(party.id);
+						return (
+							<button
+								key={party.id}
+								type="button"
+								onClick={() => toggleArrayParam("parties", party.id)}
+								className={`flex w-full items-center gap-2.5 rounded-md px-3 py-1.5 text-body-sm transition-colors ${
+									isActive
+										? "bg-surface-3 text-text-primary"
+										: "text-text-secondary hover:bg-surface-2"
+								}`}
+							>
+								<span
+									className="h-2.5 w-2.5 shrink-0 rounded-full"
+									style={{ backgroundColor: party.color }}
+								/>
+								<span className="flex-1 text-left">{party.name}</span>
+								<span className="text-caption text-text-muted">{party.count}</span>
+								{isActive && <span className="h-1.5 w-1.5 rounded-full bg-swiss-red" />}
+							</button>
+						);
+					})}
+				</CollapsibleSection>
+
+				{/* Verbindungstyp */}
+				<CollapsibleSection title="Verbindungstyp" count={activeConnectionTypes.length} defaultOpen>
+					<div className="flex flex-col gap-1">
+						{CONNECTION_TYPE_CONFIG.map((ct) => {
+							const isActive = activeConnectionTypes.includes(ct.value);
+							return (
+								<button
+									key={ct.value}
+									type="button"
+									onClick={() => toggleArrayParam("connectionTypes", ct.value)}
+									className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-body-sm transition-colors ${
+										isActive
+											? "bg-surface-3 text-text-primary"
+											: "text-text-secondary hover:bg-surface-2"
+									}`}
+								>
+									<span className="h-0.5 w-4 rounded-full" style={{ backgroundColor: ct.color }} />
+									<span className="flex-1 text-left">{ct.label}</span>
+									{isActive && <span className="h-1.5 w-1.5 rounded-full bg-swiss-red" />}
+								</button>
+							);
+						})}
+					</div>
+				</CollapsibleSection>
+
+				{/* Vertrauen */}
+				<CollapsibleSection title="Vertrauen" count={activeConfidence.length}>
+					<div className="flex flex-col gap-1">
+						{CONFIDENCE_CONFIG.map((cf) => {
+							const isActive = activeConfidence.includes(cf.value);
+							return (
+								<button
+									key={cf.value}
+									type="button"
+									onClick={() => toggleArrayParam("confidence", cf.value)}
+									className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-body-sm transition-colors ${
+										isActive
+											? "bg-surface-3 text-text-primary"
+											: "text-text-secondary hover:bg-surface-2"
+									}`}
+								>
+									<span className="h-2 w-2 rounded-full" style={{ backgroundColor: cf.color }} />
+									<span className="flex-1 text-left">{cf.label}</span>
+									{isActive && <span className="h-1.5 w-1.5 rounded-full bg-swiss-red" />}
+								</button>
+							);
+						})}
+					</div>
+				</CollapsibleSection>
 
 				{/* Kantone */}
-				<FilterSection title="Kantone">
+				<CollapsibleSection title="Kantone" count={activeCantons.length}>
 					<div className="flex flex-wrap gap-1">
 						{graphData.cantons.map((canton) => (
 							<button
@@ -144,10 +326,10 @@ export function GraphControls({ open, onClose }: { open: boolean; onClose: () =>
 							</button>
 						))}
 					</div>
-				</FilterSection>
+				</CollapsibleSection>
 
 				{/* Rat */}
-				<FilterSection title="Rat">
+				<CollapsibleSection title="Rat" count={activeCouncils.length}>
 					<div className="flex gap-1">
 						{COUNCIL_OPTIONS.map((opt) => (
 							<button
@@ -164,11 +346,11 @@ export function GraphControls({ open, onClose }: { open: boolean; onClose: () =>
 							</button>
 						))}
 					</div>
-				</FilterSection>
+				</CollapsibleSection>
 
 				{/* Branche */}
 				{graphData.industries.length > 0 && (
-					<FilterSection title="Branche">
+					<CollapsibleSection title="Branche" count={activeIndustries.length}>
 						<div className="flex flex-wrap gap-1">
 							{graphData.industries.map((ind) => (
 								<button
@@ -185,46 +367,61 @@ export function GraphControls({ open, onClose }: { open: boolean; onClose: () =>
 								</button>
 							))}
 						</div>
-					</FilterSection>
+					</CollapsibleSection>
 				)}
-
-				{/* Verbindungstyp */}
-				<FilterSection title="Verbindungstyp">
-					{Object.entries(CONNECTION_LABELS).map(([value, label]) => (
-						<label key={value} className="flex cursor-pointer items-center gap-2 py-1">
-							<input
-								type="checkbox"
-								checked={(searchState.connectionTypes ?? []).includes(value)}
-								onChange={() => toggleArrayParam("connectionTypes" as "parties", value)}
-								className="rounded border-border-subtle"
-							/>
-							<span className="text-body-sm text-text-secondary">{label}</span>
-						</label>
-					))}
-				</FilterSection>
 			</div>
 
 			{/* Footer */}
-			<div className="border-t border-border-subtle px-4 py-3">
-				<button
-					type="button"
-					onClick={clearAll}
-					className="w-full rounded-md bg-surface-2 py-2 text-body-sm text-text-secondary transition-colors hover:bg-surface-3 hover:text-text-primary"
-				>
-					Alle zurücksetzen
-				</button>
-			</div>
+			{activeChips.length > 0 && (
+				<div className="border-t border-border-subtle px-4 py-3">
+					<button
+						type="button"
+						onClick={clearAll}
+						className="w-full rounded-md bg-surface-2 py-2 text-body-sm text-text-secondary transition-colors hover:bg-surface-3 hover:text-text-primary"
+					>
+						Alle zurücksetzen
+					</button>
+				</div>
+			)}
 		</div>
 	);
 }
 
-function FilterSection({ title, children }: { title: string; children: React.ReactNode }) {
+function CollapsibleSection({
+	title,
+	count,
+	defaultOpen = false,
+	children,
+}: {
+	title: string;
+	count: number;
+	defaultOpen?: boolean;
+	children: React.ReactNode;
+}) {
+	const [open, setOpen] = useState(defaultOpen);
+
 	return (
-		<div className="mb-4">
-			<h4 className="mb-2 text-caption font-medium uppercase tracking-wider text-text-muted">
-				{title}
-			</h4>
-			{children}
+		<div className="border-b border-border-subtle">
+			<button
+				type="button"
+				onClick={() => setOpen(!open)}
+				className="flex w-full items-center gap-2 px-4 py-2.5 text-left transition-colors hover:bg-surface-2"
+			>
+				<ChevronDown
+					size={12}
+					strokeWidth={2}
+					className={`text-text-muted transition-transform ${open ? "" : "-rotate-90"}`}
+				/>
+				<span className="flex-1 text-caption font-medium uppercase tracking-wider text-text-muted">
+					{title}
+				</span>
+				{count > 0 && (
+					<span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-swiss-red/20 px-1 text-[10px] font-medium text-swiss-red">
+						{count}
+					</span>
+				)}
+			</button>
+			{open && <div className="px-4 pb-3">{children}</div>}
 		</div>
 	);
 }

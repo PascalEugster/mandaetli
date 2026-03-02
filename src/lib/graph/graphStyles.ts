@@ -45,19 +45,19 @@ export function getNodeSize(actor: GraphActor): number {
 // ── Edge styles ──────────────────────────────────────────────
 
 const EDGE_COLORS: Record<ConnectionType, string> = {
-	mandate: "#475569",
-	membership: "#334155",
-	lobbying: "#475569",
-	donation: "rgba(245,158,11,0.2)",
-	employment: "#334155",
+	mandate: "#60a5fa",
+	membership: "#818cf8",
+	lobbying: "#f97316",
+	donation: "#fbbf24",
+	employment: "#34d399",
 };
 
 const EDGE_SIZES: Record<ConnectionType, number> = {
-	mandate: 1.5,
-	membership: 1,
-	lobbying: 1.5,
-	donation: 1.5,
-	employment: 1,
+	mandate: 2,
+	membership: 1.5,
+	lobbying: 2,
+	donation: 2.5,
+	employment: 1.5,
 };
 
 const EDGE_TYPES: Record<ConnectionType, string> = {
