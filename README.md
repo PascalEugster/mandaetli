@@ -84,7 +84,7 @@ The project uses Supabase with 3 migrations in `supabase/migrations/`:
 To create a fresh dump from your local database:
 
 ```bash
-docker exec supabase_db_lobbylos pg_dump -U postgres -d postgres \
+docker exec supabase_db_mandaetli pg_dump -U postgres -d postgres \
   --schema=public --no-owner --no-privileges \
   --data-only --disable-triggers --inserts \
   2>/dev/null | grep -v '\\restrict\|\\unrestrict' > supabase/seed.sql
@@ -150,7 +150,7 @@ If you're adding or modifying data:
    ```
 3. For data changes, update the seed file:
    ```bash
-   docker exec supabase_db_lobbylos pg_dump -U postgres -d postgres \
+   docker exec supabase_db_mandaetli pg_dump -U postgres -d postgres \
      --schema=public --no-owner --no-privileges \
      --data-only --disable-triggers --inserts \
      2>/dev/null | grep -v '\\restrict\|\\unrestrict' > supabase/seed.sql
